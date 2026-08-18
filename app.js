@@ -7,7 +7,6 @@
   const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
   const money = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
   let activeVehicle = null;
-  let gallery = null;
   let lastTrackedVehicleId = null;
   let lastSubmissionKey = "";
   let lastSubmissionAt = 0;
@@ -127,7 +126,7 @@
     $("#campaign-proof-price").textContent = `${money.format(vehicle.price)} asking price${vehicle.stock ? ` · Stock ${vehicle.stock}` : ""}`;
     $("#campaign-proof-mood").textContent = vehicle.mood;
     $("#campaign-proof-specs").innerHTML = [["Engine", vehicle.engine], ["Transmission", vehicle.transmission], ["Mileage", vehicle.mileage], ["Body", vehicle.body], ["Exterior", vehicle.exterior], ["Interior", vehicle.interior]].filter(([, value]) => value).map(([label, value]) => `<div><dt>${label}</dt><dd>${value}</dd></div>`).join("");
-    $("#campaign-proof-photos").innerHTML = vehicle.images.slice(0, 3).map((src, index) => `<img src="${src}" alt="${vehicle.title}, listing photo ${index + 1} of ${vehicle.images.length}" width="1200" height="800"${index ? ' loading="lazy"' : ""}>`).join("");
+    $("#campaign-proof-photos").innerHTML = vehicle.images.map((src, index) => `<img src="${src}" alt="${vehicle.title}, listing photo ${index + 1} of ${vehicle.images.length}" width="1200" height="800"${index ? ' loading="lazy"' : ""}>`).join("");
     $("#hero-headline").textContent = `${vehicle.title}. The exact classic from your ad.`;
     $("#hero-lede").textContent = `${money.format(vehicle.price)} asking price${vehicle.stock ? `, stock ${vehicle.stock}` : ""}. Review real photos and listing details, then ask about this exact car.`;
     $("#inventory-heading-title").textContent = "Other current classics from B & B";
@@ -177,7 +176,7 @@
               <span><strong>${vehicle.engine}</strong>Engine</span>
               <span><strong>${vehicle.transmission}</strong>Transmission</span>
             </div>
-            <span class="vehicle-cta">See 10 photos of this car <i data-lucide="arrow-up-right" aria-hidden="true"></i></span>
+            <span class="vehicle-cta">Open vehicle page · ${vehicle.images.length} photos <i data-lucide="arrow-up-right" aria-hidden="true"></i></span>
           </div>
         </a>
       </article>`;
@@ -205,34 +204,17 @@
     const rows = filteredInventory();
     $("#inventory-grid").innerHTML = rows.length ? rows.map(cardTemplate).join("") : `<div class="empty-state"><h3>No exact match</h3><p>Reset the filters to see every current listing.</p></div>`;
     $("#inventory-count").textContent = `${rows.length} vehicle${rows.length === 1 ? "" : "s"}`;
-    $$('[data-vehicle]', $("#inventory-grid")).forEach((link) => link.addEventListener("click", (event) => { if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return; event.preventDefault(); openVehicle(link.dataset.vehicle); }));
     if (window.lucide) window.lucide.createIcons();
   }
 
-  function openVehicle(id) {
-    activeVehicle = inventory.find((vehicle) => vehicle.id === id);
-    if (!activeVehicle) return;
-    setVehicleUrl(activeVehicle);
-    updateVehicleMetadata(activeVehicle);
-    $("#vehicle-select").value = activeVehicle.id;
-    $("#dialog-stock").textContent = activeVehicle.stock ? `STOCK ${activeVehicle.stock}` : "CURRENT COLLECTION";
-    $("#dialog-title").textContent = activeVehicle.title;
-    $("#dialog-price").textContent = money.format(activeVehicle.price);
-    $("#dialog-mood").textContent = activeVehicle.mood;
-    $("#dialog-specs").innerHTML = [
-      ["Engine", activeVehicle.engine], ["Transmission", activeVehicle.transmission], ["Mileage", activeVehicle.mileage],
-      ["Body", activeVehicle.body], ["Exterior", activeVehicle.exterior], ["Interior", activeVehicle.interior]
-    ].filter(([, value]) => value).map(([label, value]) => `<div><dt>${label}</dt><dd>${value}</dd></div>`).join("");
-    $("#dialog-gallery").innerHTML = activeVehicle.images.map((src, index) => `<div class="swiper-slide"><img src="${src}" alt="${activeVehicle.title}, view ${index + 1}" width="1200" height="800"></div>`).join("");
-    const dialog = $("#vehicle-dialog");
-    dialog.showModal();
-    if (gallery) gallery.destroy(true, true);
-    if (window.Swiper) gallery = new window.Swiper(".vehicle-swiper", { loop: activeVehicle.images.length > 1, keyboard: { enabled: true }, pagination: { el: ".swiper-pagination", clickable: true }, navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" } });
-    trackVehicleView(activeVehicle);
-  }
-
-  function closeVehicle() {
-    $("#vehicle-dialog").close();
+  function openVehiclePage(id) {
+    const vehicle = inventory.find((row) => row.id === id);
+    if (!vehicle) return;
+    if (pathVehicleMatch && campaignVehicle && campaignVehicle.id === vehicle.id) {
+      $("#campaign-proof").scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+    location.assign(vehicleHref(vehicle));
   }
 
   function openLead(id = activeVehicle && activeVehicle.id, requestType = "Availability and details") {
@@ -246,9 +228,33 @@
     $("#request-type").value = requestType;
     $("#lead-title").textContent = `Ask about ${vehicle.title}`;
     $("#lead-context").textContent = `${money.format(vehicle.price)} asking price${vehicle.stock ? ` · Stock ${vehicle.stock}` : ""}. Your request will stay tied to this exact vehicle.`;
-    if ($("#vehicle-dialog").open) closeVehicle();
     $("#lead-form-card").scrollIntoView({ behavior: "smooth", block: "center" });
     setTimeout(() => $("#lead-form input[name='firstName']").focus(), 450);
+  }
+
+  function newLeadId() {
+    return window.crypto && typeof window.crypto.randomUUID === "function"
+      ? window.crypto.randomUUID()
+      : `lead-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  }
+
+  async function postLeadToRouter(payload) {
+    const requestPayload = { ...payload, leadSource: "LANDING", leadId: payload.leadId || newLeadId(), receivedAt: new Date().toISOString() };
+    const options = { method: "POST", headers: { "Content-Type": "text/plain;charset=UTF-8" }, body: JSON.stringify(requestPayload), redirect: "follow" };
+    try {
+      const response = await fetch(config.leadEndpoint, options);
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok || body.ok === false) {
+        const error = new Error(body.message || "The request could not be sent.");
+        error.routerRejected = true;
+        throw error;
+      }
+      return body;
+    } catch (error) {
+      if (error.routerRejected) throw error;
+      await fetch(config.leadEndpoint, { ...options, mode: "no-cors" });
+      return { ok: true, deliveryConfirmedByBrowser: false };
+    }
   }
 
   async function submitLead(event) {
@@ -307,9 +313,7 @@
       return;
     }
     try {
-      const response = await fetch(config.leadEndpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-      const body = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(body.message || "The request could not be sent.");
+      const body = await postLeadToRouter(payload);
       status.classList.add("success");
       status.textContent = body.message || "Request received. The B&B team will use your details to follow up.";
       form.reset();
@@ -338,7 +342,7 @@
     populateSelect();
     applyCampaignVehicle();
     renderInventory();
-    $$('[data-vehicle]', $(".garage-hero")).forEach((button) => button.addEventListener("click", () => openVehicle(button.dataset.vehicle)));
+    $$('[data-vehicle]', $(".garage-hero")).forEach((button) => button.addEventListener("click", () => openVehiclePage(button.dataset.vehicle)));
     [$("#filter-era"), $("#filter-transmission"), $("#filter-budget")].forEach((select) => select.addEventListener("change", renderInventory));
     $("#filter-reset").addEventListener("click", () => { $("#filter-era").value = "all"; $("#filter-transmission").value = "all"; $("#filter-budget").value = "all"; renderInventory(); });
     $("#lead-form").addEventListener("submit", submitLead);
@@ -346,11 +350,7 @@
     $$('[data-hero-request]').forEach((button) => button.addEventListener("click", () => openLead((campaignVehicle || inventory.find((row) => row.id === "1969-chevrolet-camaro-ss") || inventory[0]).id, button.dataset.heroRequest)));
     $$('[data-campaign-request]').forEach((button) => button.addEventListener("click", () => openLead(campaignVehicle && campaignVehicle.id, button.dataset.campaignRequest)));
     const campaignGallery = $('[data-campaign-gallery]');
-    if (campaignGallery && campaignVehicle) campaignGallery.addEventListener("click", () => openVehicle(campaignVehicle.id));
-    $$('[data-dialog-close]').forEach((button) => button.addEventListener("click", closeVehicle));
-    $("#dialog-lead").addEventListener("click", () => openLead(undefined, "Availability and details"));
-    $("#dialog-video").addEventListener("click", () => openLead(undefined, "Personal walk-around video"));
-    $("#vehicle-dialog").addEventListener("click", (event) => { if (event.target === event.currentTarget) closeVehicle(); });
+    if (campaignGallery && campaignVehicle) campaignGallery.addEventListener("click", () => $("#campaign-proof-photos").scrollIntoView({ behavior: "smooth", block: "start" }));
     if (window.IMask) $$("input[type='tel']").forEach((input) => window.IMask(input, { mask: "(000) 000-0000" }));
     if (window.lucide) window.lucide.createIcons();
     setupMotion();

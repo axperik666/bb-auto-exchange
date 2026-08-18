@@ -331,6 +331,19 @@ footer { padding: 34px 0; color: #aeb0ac; background: #050606; font-size: 14px; 
   .mobile-cta button, .mobile-cta a:last-child { color: #111; background: var(--amber); }
 }
 
+/* Full vehicle pages replace the former modal gallery. */
+.vehicle-landing .campaign-proof-grid { grid-template-columns: 1fr; align-items: start; }
+.vehicle-landing .campaign-proof-copy { max-width: 940px; }
+.vehicle-landing .campaign-proof-photos { min-height: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; gap: 14px; scroll-margin-top: 96px; }
+.vehicle-landing .campaign-proof-photos img,
+.vehicle-landing .campaign-proof-photos img:first-child { display: block; height: auto; aspect-ratio: 3 / 2; grid-column: auto; grid-row: auto; object-fit: cover; }
+.vehicle-landing .campaign-proof-photos img:first-child { grid-column: 1 / -1; }
+
+@media (max-width: 760px) {
+  .vehicle-landing .campaign-proof-photos { grid-template-columns: 1fr; gap: 10px; }
+  .vehicle-landing .campaign-proof-photos img:first-child { grid-column: auto; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
