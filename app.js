@@ -3,6 +3,7 @@
 
   const inventory = Array.isArray(window.INVENTORY) ? window.INVENTORY : [];
   const config = window.SITE_CONFIG || {};
+  const callLines = (Array.isArray(config.phones) && config.phones.length ? config.phones : [config.phone]).filter(Boolean).join(" or ");
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
   const money = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
@@ -308,7 +309,7 @@
     }
     if (!config.leadEndpoint) {
       status.classList.add("error");
-      status.textContent = `Online delivery is not connected yet. Please call ${config.phone}.`;
+      status.textContent = `Online delivery is not connected yet. Please call ${callLines}.`;
       submitButton.disabled = false;
       return;
     }
@@ -320,7 +321,7 @@
       if (window.fbq) window.fbq("track", "Lead", { content_name: vehicle ? vehicle.title : "Inventory inquiry", value: vehicle ? vehicle.price : 0, currency: "USD" });
     } catch (error) {
       status.classList.add("error");
-      status.textContent = `${error.message} Please call +1 386-384-0064.`;
+      status.textContent = `${error.message} Please call ${callLines}.`;
     } finally {
       submitButton.disabled = false;
     }

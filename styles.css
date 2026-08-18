@@ -44,6 +44,8 @@ button { cursor: pointer; }
 .utility-bar { color: #d9d7d0; background: #050606; border-bottom: 1px solid rgba(255,255,255,.08); font-size: 14px; letter-spacing: .04em; }
 .utility-inner { min-height: 38px; display: flex; align-items: center; gap: 12px; }
 .utility-inner a { margin-left: auto; color: var(--amber-2); font-weight: 700; text-decoration: none; }
+.utility-inner .utility-phones { display: flex; gap: 20px; margin-left: auto; }
+.utility-inner .utility-phones a { margin-left: 0; }
 .utility-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--amber); }
 .site-header { position: sticky; top: 0; z-index: 80; background: rgba(10, 11, 11, .95); border-bottom: 1px solid rgba(255,255,255,.09); backdrop-filter: blur(10px); }
 .header-inner { min-height: 80px; display: flex; align-items: center; gap: 36px; }
@@ -175,8 +177,9 @@ h3 { font-size: 27px; line-height: 1; }
 .lead-intro ul { display: grid; gap: 14px; margin: 32px 0; padding: 0; list-style: none; }
 .lead-intro li { display: flex; align-items: center; gap: 12px; color: #fff; font-weight: 700; }
 .lead-intro li svg { flex: 0 0 auto; width: 23px; color: var(--amber-2); }
-.lead-intro > a { color: #fff; font-size: 18px; text-decoration: none; }
-.lead-intro > a strong { display: block; margin-top: 6px; color: var(--amber-2); font: 700 33px/1 var(--display); }
+.lead-call-lines { display: grid; gap: 8px; margin-top: 28px; }
+.lead-call-lines span { color: #fff; font-size: 18px; }
+.lead-call-lines a { width: fit-content; color: var(--amber-2); font: 700 31px/1 var(--display); text-decoration: none; }
 .lead-section .lead-card { max-width: 650px; }
 
 .decision-section { position: relative; padding: 115px 0; background: #111312; }
@@ -208,6 +211,7 @@ h3 { font-size: 27px; line-height: 1; }
 .contact-copy dl > div { display: grid; grid-template-columns: 100px 1fr; gap: 18px; padding: 15px 0; border-top: 1px solid #bbb6ad; }
 .contact-copy dt { color: #73746e; font-size: 14px; font-weight: 700; text-transform: uppercase; }
 .contact-copy dd { margin: 0; font-weight: 600; }
+.contact-phone-lines { display: grid; gap: 7px; }
 .contact-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 
 .faq-section { padding: 110px 0; color: #262724; background: #f5f2eb; }
@@ -228,7 +232,7 @@ footer { padding: 34px 0; color: #aeb0ac; background: #050606; font-size: 14px; 
 .footer-inner strong { display: block; color: #fff; font-size: 18px; }
 .footer-inner span { color: var(--amber); }
 .footer-inner p { margin: 0; }
-.footer-links { display: flex; gap: 20px; }
+.footer-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px 18px; max-width: 460px; }
 
 .vehicle-dialog { width: min(1160px, calc(100% - 30px)); max-height: 92vh; padding: 0; color: #20211f; background: #f4f0e8; border: 0; box-shadow: 0 30px 100px rgba(0,0,0,.55); }
 .vehicle-dialog::backdrop { background: rgba(0,0,0,.82); }
@@ -254,7 +258,7 @@ footer { padding: 34px 0; color: #aeb0ac; background: #050606; font-size: 14px; 
 
 .floating-actions { position: fixed; right: 18px; bottom: 20px; z-index: 70; display: grid; gap: 9px; }
 .floating-actions a, .floating-actions button { min-width: 112px; min-height: 46px; display: flex; align-items: center; gap: 9px; padding: 0 13px; color: #fff; background: #181a19; border: 1px solid rgba(255,255,255,.2); border-radius: 3px; box-shadow: 0 8px 25px rgba(0,0,0,.25); font-size: 14px; font-weight: 700; text-decoration: none; }
-.floating-actions a:last-child { background: #1f7a4a; }
+.floating-actions button { background: #1f7a4a; }
 .floating-actions svg { width: 19px; }
 .mobile-cta { display: none; }
 
@@ -279,8 +283,7 @@ footer { padding: 34px 0; color: #aeb0ac; background: #050606; font-size: 14px; 
 @media (max-width: 760px) {
   body { font-size: 17px; padding-bottom: 62px; }
   .shell { width: min(100% - 28px, 1240px); }
-  .utility-inner span { display: none; }
-  .utility-inner a { margin-left: 0; }
+  .utility-bar { display: none; }
   .header-inner { min-height: 68px; }
   .brand-mark { min-width: 55px; height: 40px; font-size: 23px; }
   .brand-copy { font-size: 18px; }
@@ -326,9 +329,11 @@ footer { padding: 34px 0; color: #aeb0ac; background: #050606; font-size: 14px; 
   .dialog-info h2 { font-size: 37px; }
   .dialog-close { top: 10px; right: 10px; }
   .floating-actions { display: none; }
-  .mobile-cta { position: fixed; inset: auto 0 0; z-index: 90; height: 62px; display: grid; grid-template-columns: .75fr 1.25fr; background: #090a0a; border-top: 1px solid rgba(255,255,255,.18); }
-  .mobile-cta a, .mobile-cta button { display: flex; align-items: center; justify-content: center; gap: 8px; color: #fff; background: transparent; border: 0; font-weight: 800; text-decoration: none; }
-  .mobile-cta button, .mobile-cta a:last-child { color: #111; background: var(--amber); }
+  .mobile-cta { position: fixed; inset: auto 0 0; z-index: 90; height: 62px; display: grid; grid-template-columns: 1fr 1fr 1fr; background: #090a0a; border-top: 1px solid rgba(255,255,255,.18); }
+  .mobile-cta a, .mobile-cta button { display: grid; place-items: center; align-content: center; gap: 3px; color: #fff; background: transparent; border: 0; font-size: 14px; font-weight: 800; line-height: 1; text-decoration: none; }
+  .mobile-cta a + a { border-left: 1px solid rgba(255,255,255,.18); }
+  .mobile-cta a small { color: var(--amber-2); font-size: 12px; }
+  .mobile-cta button { color: #111; background: var(--amber); }
 }
 
 /* Full vehicle pages replace the former modal gallery. */
