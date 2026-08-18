@@ -1,0 +1,114 @@
+[
+  {
+    "id": "1955-ford-thunderbird",
+    "title": "1955 Ford Thunderbird",
+    "stock": "001633",
+    "price": 26499,
+    "path": "/cars/1955-ford-thunderbird/"
+  },
+  {
+    "id": "1956-chevrolet-bel-air",
+    "title": "1956 Chevrolet Bel Air",
+    "stock": "21725",
+    "price": 23599,
+    "path": "/cars/1956-chevrolet-bel-air/"
+  },
+  {
+    "id": "1962-chevrolet-impala",
+    "title": "1962 Chevrolet Impala",
+    "stock": "001600",
+    "price": 31499,
+    "path": "/cars/1962-chevrolet-impala/"
+  },
+  {
+    "id": "1965-chevrolet-corvette",
+    "title": "1965 Chevrolet Corvette",
+    "stock": "21701",
+    "price": 22899,
+    "path": "/cars/1965-chevrolet-corvette/"
+  },
+  {
+    "id": "1965-ford-mustang",
+    "title": "1965 Ford Mustang",
+    "stock": "21748",
+    "price": 18999,
+    "path": "/cars/1965-ford-mustang/"
+  },
+  {
+    "id": "1967-ford-mustang",
+    "title": "1967 Ford Mustang",
+    "stock": "21715",
+    "price": 23499,
+    "path": "/cars/1967-ford-mustang/"
+  },
+  {
+    "id": "1967-pontiac-firebird",
+    "title": "1967 Pontiac Firebird",
+    "stock": "21727",
+    "price": 25699,
+    "path": "/cars/1967-pontiac-firebird/"
+  },
+  {
+    "id": "1969-chevrolet-camaro-ss",
+    "title": "1969 Chevrolet Camaro SS",
+    "stock": "001648",
+    "price": 25999,
+    "path": "/cars/1969-chevrolet-camaro-ss/"
+  },
+  {
+    "id": "1969-chevrolet-chevelle",
+    "title": "1969 Chevrolet Chevelle",
+    "stock": "21739",
+    "price": 24699,
+    "path": "/cars/1969-chevrolet-chevelle/"
+  },
+  {
+    "id": "1969-chevrolet-nova",
+    "title": "1969 Chevrolet Nova",
+    "stock": "001629",
+    "price": 28999,
+    "path": "/cars/1969-chevrolet-nova/"
+  },
+  {
+    "id": "1969-oldsmobile-442",
+    "title": "1969 Oldsmobile 442",
+    "stock": "001628",
+    "price": 26499,
+    "path": "/cars/1969-oldsmobile-442/"
+  },
+  {
+    "id": "1972-chevrolet-corvette",
+    "title": "1972 Chevrolet Corvette",
+    "stock": "001622",
+    "price": 28500,
+    "path": "/cars/1972-chevrolet-corvette/"
+  },
+  {
+    "id": "1973-ford-mustang-mach-1",
+    "title": "1973 Ford Mustang Mach 1",
+    "stock": "21752",
+    "price": 21799,
+    "path": "/cars/1973-ford-mustang-mach-1/"
+  },
+  {
+    "id": "1974-chevrolet-nova",
+    "title": "1974 Chevrolet Nova",
+    "stock": "21762",
+    "price": 19999,
+    "path": "/cars/1974-chevrolet-nova/"
+  },
+  {
+    "id": "1976-chevrolet-corvette",
+    "title": "1976 Chevrolet Corvette",
+    "stock": "21707",
+    "price": 16799,
+    "path": "/cars/1976-chevrolet-corvette/"
+  },
+  {
+    "id": "1979-pontiac-firebird-trans-am",
+    "title": "1979 Pontiac Firebird Trans Am",
+    "stock": "21704",
+    "price": 22499,
+    "path": "/cars/1979-pontiac-firebird-trans-am/"
+  }
+]

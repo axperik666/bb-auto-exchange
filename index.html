@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <base href="./">
+  <meta name="description" content="Explore current classic-car inventory from B & B Auto Exchange in Worthington Springs, Florida. Ask for availability, a walk-around, financing information, or delivery planning.">
+  <meta property="og:title" content="B & B Auto Exchange | Your Weekend Starts in the Driveway">
+  <meta property="og:description" content="Real classics, published asking prices, ten-photo galleries, and a direct answer about the car you want.">
+  <meta property="og:image" content="assets/cars/1969-chevrolet-camaro-ss-1.webp">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0a0b0b">
+  <title>B &amp; B Auto Exchange | Classic Cars in Florida</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#inventory">Skip to inventory</a>
+
+  <aside class="utility-bar" aria-label="Dealership location and phone">
+    <div class="shell utility-inner">
+      <span>Worthington Springs, Florida</span>
+      <span class="utility-dot" aria-hidden="true"></span>
+      <span>Classic &amp; retro vehicles</span>
+      <a href="tel:+13863840064">Call +1 386-384-0064</a>
+    </div>
+  </aside>
+
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="#top" aria-label="B and B Auto Exchange home">
+        <span class="brand-mark"><b>B</b><i>&amp;</i><b>B</b></span>
+        <span class="brand-copy">AUTO EXCHANGE<small>WORTHINGTON SPRINGS · FLORIDA</small></span>
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="#inventory">Inventory</a>
+        <a href="#process">How it works</a>
+        <a href="#visit">Visit</a>
+      </nav>
+      <a class="button button-small" href="#inventory">View cars for sale</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero garage-hero">
+      <div class="shell garage-hero-grid">
+        <div class="garage-hero-copy reveal">
+          <p class="eyebrow">REAL CLASSICS. REAL PHOTOS. A REAL PERSON WHEN YOU CALL.</p>
+          <h1 id="hero-headline">Your weekend starts <em>in the driveway.</em></h1>
+          <p class="hero-lede" id="hero-lede">Find the shape, the sound, and the steering wheel you still remember. Start with published asking prices and ten real photos of every car.</p>
+          <div class="hero-actions">
+            <button class="button" id="hero-primary-cta" type="button" data-hero-request="Availability and details">Check Availability</button>
+            <button class="text-button" id="hero-video-cta" type="button" data-hero-request="Personal walk-around video"><i data-lucide="video" aria-hidden="true"></i><span>Request Walk-Around Video</span></button>
+          </div>
+          <ul class="garage-facts" aria-label="B and B inventory facts">
+            <li><strong>16</strong><span>current classics</span></li>
+            <li><strong>10</strong><span>photos per car</span></li>
+            <li><strong>1:1</strong><span>walk-around on request</span></li>
+          </ul>
+        </div>
+
+        <figure class="garage-car reveal">
+          <span class="garage-watermark" aria-hidden="true">B&amp;B</span>
+          <img id="hero-vehicle-image" src="assets/cars/1969-chevrolet-camaro-ss-1.webp" alt="Red 1969 Chevrolet Camaro SS shown completely from a front three-quarter angle" width="1200" height="800">
+          <figcaption>
+            <span><small id="hero-vehicle-kicker">FEATURED CURRENT LISTING</small><strong id="hero-vehicle-title">1969 Chevrolet Camaro SS</strong><em id="hero-vehicle-meta">$25,999 · STOCK 001648</em></span>
+            <button id="hero-vehicle-button" type="button" data-vehicle="1969-chevrolet-camaro-ss">See all 10 photos <i data-lucide="arrow-up-right" aria-hidden="true"></i></button>
+          </figcaption>
+        </figure>
+      </div>
+      <div class="hero-roadline" aria-hidden="true"><span></span></div>
+    </section>
+
+    <section class="campaign-proof" id="campaign-proof" hidden aria-labelledby="campaign-proof-title">
+      <div class="shell campaign-proof-grid">
+        <div class="campaign-proof-copy">
+          <p class="eyebrow">THE EXACT VEHICLE FROM YOUR AD</p>
+          <h2 id="campaign-proof-title">Featured classic vehicle</h2>
+          <p class="campaign-proof-price" id="campaign-proof-price"></p>
+          <p id="campaign-proof-mood"></p>
+          <dl class="campaign-proof-specs" id="campaign-proof-specs"></dl>
+          <div class="campaign-proof-actions"><button class="button" type="button" data-campaign-request="Availability and details">Check Availability</button><button class="button button-secondary" type="button" data-campaign-request="Personal walk-around video">Request Walk-Around Video</button><button class="text-button" type="button" data-campaign-gallery>See All 10 Photos</button></div>
+        </div>
+        <div class="campaign-proof-photos" id="campaign-proof-photos"></div>
+      </div>
+    </section>
+
+    <section class="inventory-section" id="inventory">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <div>
+            <p class="eyebrow dark">CURRENT B&amp;B COLLECTION</p>
+            <h2 id="inventory-heading-title">These are the cars for sale.</h2>
+          </div>
+          <p>Open the exact vehicle you came to see. Each listing has its own asking price, specifications, stock number, and ten-photo gallery.</p>
+        </div>
+
+        <div class="filters reveal" role="group" aria-label="Inventory filters">
+          <label>Era<select id="filter-era"><option value="all">All years</option><option value="50">1950s</option><option value="60">1960s</option><option value="70">1970s</option></select></label>
+          <label>Transmission<select id="filter-transmission"><option value="all">Any transmission</option><option value="manual">Manual</option><option value="automatic">Automatic</option></select></label>
+          <label>Budget<select id="filter-budget"><option value="all">Any price</option><option value="under25">Under $25,000</option><option value="25to35">$25,000–$35,000</option><option value="over35">$35,000+</option></select></label>
+          <button class="filter-reset" id="filter-reset" type="button">Reset filters</button>
+          <p id="inventory-count" aria-live="polite"></p>
+        </div>
+
+        <div class="inventory-grid" id="inventory-grid"></div>
+      </div>
+    </section>
+
+    <section class="lead-section" id="availability">
+      <div class="shell lead-section-grid">
+        <div class="lead-intro reveal">
+          <p class="eyebrow">FOUND ONE YOU WOULD DRIVE?</p>
+          <h2>Ask about that exact car.</h2>
+          <p>Select the vehicle and tell us the best way to reach you. You can ask about availability, a personal walk-around video, financing information, or delivery planning.</p>
+          <ul>
+            <li><i data-lucide="images" aria-hidden="true"></i>Request another angle or a personal video</li>
+            <li><i data-lucide="badge-check" aria-hidden="true"></i>Ask if this exact vehicle is still available</li>
+            <li><i data-lucide="truck" aria-hidden="true"></i>Ask about delivery to your ZIP code</li>
+          </ul>
+          <a href="tel:+13863840064">Prefer to call? <strong>+1 386-384-0064</strong></a>
+        </div>
+
+        <aside class="lead-card reveal" id="lead-form-card" aria-labelledby="lead-title">
+          <p class="lead-kicker">VEHICLE REQUEST</p>
+          <h2 id="lead-title">Ask about a specific vehicle</h2>
+          <p id="lead-context">Choose the exact listing. We’ll use your contact details only to answer that vehicle request.</p>
+          <form class="lead-form" id="lead-form" novalidate>
+            <label>Exact vehicle<select name="vehicleSlug" id="vehicle-select" required><option value="">Choose the exact vehicle</option></select></label>
+            <label>What would you like?<select name="requestType" id="request-type" required><option value="Availability and details">Check availability and details</option><option value="Personal walk-around video">Request a personal walk-around video</option><option value="Purchase information">Ask a purchase question</option><option value="Delivery planning">Discuss delivery planning</option></select></label>
+            <div class="two-fields">
+              <label>First name<input name="firstName" type="text" autocomplete="given-name" required maxlength="60"></label>
+              <label>Last name<input name="lastName" type="text" autocomplete="family-name" required maxlength="60"></label>
+            </div>
+            <label>Phone number<input name="phone" type="tel" autocomplete="tel" required maxlength="24" placeholder="(555) 555-5555"></label>
+            <label>Email address<input name="email" type="email" autocomplete="email" required maxlength="120" placeholder="you@example.com"></label>
+            <fieldset><legend>How are you thinking about buying?</legend><div class="choice-row"><label><input type="radio" name="purchaseMethod" value="Cash" checked><span>Cash</span></label><label><input type="radio" name="purchaseMethod" value="Financing"><span>Financing</span></label><label><input type="radio" name="purchaseMethod" value="Not sure"><span>Not sure</span></label></div></fieldset>
+            <label class="check-line"><input type="checkbox" name="deliveryNeeded"><span>I may need delivery to my location</span></label>
+            <label class="consent-line"><input type="checkbox" name="smsCustomerCareConsent" required><span>I agree to be contacted about this request by phone, text, or email. Consent is not a condition of purchase. Message and data rates may apply.</span></label>
+            <p class="privacy-note">We collect your contact details, selected vehicle, and request information only to respond and operate this service. See our <a href="privacy/">Privacy Policy</a> and <a href="terms/">Terms of Use</a>.</p>
+            <button class="button button-full" type="submit">Check this car <i data-lucide="arrow-right" aria-hidden="true"></i></button>
+            <p class="form-status" role="status" aria-live="polite"></p>
+          </form>
+        </aside>
+      </div>
+    </section>
+
+    <section class="decision-section" id="process">
+      <div class="shell decision-grid">
+        <div class="decision-copy reveal">
+          <p class="eyebrow">NO AUCTION CLOCK. NO BLIND GUESS.</p>
+          <h2>A clearer path from memory to your driveway.</h2>
+          <p>Classic-car buyers want the details before the pressure. Start with the car, ask direct questions, and decide the next step only when the answers make sense.</p>
+          <a class="button button-outline" href="#inventory">Choose the exact vehicle</a>
+        </div>
+        <ol class="steps reveal">
+          <li><span>01</span><div><h3>Choose the car</h3><p>Review the photos, price, mileage, engine, transmission, and available vehicle details.</p></div></li>
+          <li><span>02</span><div><h3>Request what you need</h3><p>Ask for availability, more detail, a walk-around, purchase options, or delivery planning.</p></div></li>
+          <li><span>03</span><div><h3>Confirm the next move</h3><p>Talk directly with B&amp;B before you travel, arrange transport, or make a purchase decision.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="contact-section" id="visit">
+      <div class="shell contact-grid">
+        <div class="map-panel reveal">
+          <a class="map-visual" href="https://www.google.com/maps/search/?api=1&amp;query=4855%20FL-121%2C%20Worthington%20Springs%2C%20FL%2032697" target="_blank" rel="noreferrer" aria-label="Open directions to B and B Auto Exchange in Google Maps">
+            <span class="map-route-label">ROUTE TO THE SHOWROOM</span>
+            <span class="map-marker"><i data-lucide="map-pin" aria-hidden="true"></i><strong>B &amp; B AUTO EXCHANGE</strong><small>Worthington Springs, Florida</small></span>
+            <span class="map-open">Open turn-by-turn directions <i data-lucide="arrow-up-right" aria-hidden="true"></i></span>
+          </a>
+        </div>
+        <div class="contact-copy reveal">
+          <p class="eyebrow dark">SHOWROOM &amp; CONTACT</p>
+          <h2>See it in person. Start with an appointment.</h2>
+          <address>4855 FL-121<br>Worthington Springs, FL 32697</address>
+          <dl>
+            <div><dt>Phone</dt><dd><a href="tel:+13863840064">+1 386-384-0064</a></dd></div>
+            <div><dt>Email</dt><dd><a href="mailto:sales@bbautoexchange.com">sales@bbautoexchange.com</a></dd></div>
+            <div><dt>Hours</dt><dd>Mon–Fri 9:00 AM–6:00 PM<br>Saturday 10:00 AM–4:00 PM<br>Sunday by appointment</dd></div>
+          </dl>
+          <div class="contact-actions">
+            <a class="button" href="https://www.google.com/maps/search/?api=1&amp;query=4855%20FL-121%2C%20Worthington%20Springs%2C%20FL%2032697" target="_blank" rel="noreferrer">Open in Google Maps</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <div class="shell faq-grid">
+        <div class="reveal"><p class="eyebrow dark">BEFORE YOU CALL</p><h2>Straight answers to common questions.</h2></div>
+        <div class="faq-list reveal">
+          <details><summary>Can I request more photos or a walk-around video?<i data-lucide="plus" aria-hidden="true"></i></summary><p>Yes. Send the vehicle name or stock number and tell the team what you want to see more closely. A personal walk-around video is available on request.</p></details>
+          <details><summary>What does the displayed price include?<i data-lucide="plus" aria-hidden="true"></i></summary><p>The published asking price appears with every vehicle. Availability, taxes, fees, and any delivery cost are confirmed separately with B&amp;B.</p></details>
+          <details><summary>Can I discuss financing?<i data-lucide="plus" aria-hidden="true"></i></summary><p>Use the form and select “Financing.” Available terms depend on the buyer and the transaction; no approval is promised by this page.</p></details>
+          <details><summary>Can the vehicle be delivered?<i data-lucide="plus" aria-hidden="true"></i></summary><p>Delivery planning is available. Share your destination ZIP code so the team can discuss timing and a route-specific quote.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="shell final-inner reveal">
+        <p class="eyebrow">ONE CONVERSATION CAN ANSWER THE QUESTION</p>
+        <h2>Is this the one?</h2>
+        <p>Open the listing you want, review all ten photos, then ask about that exact car.</p>
+        <a class="button" href="#inventory">Choose the exact car</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-inner">
+      <div><strong>B &amp; B Auto Exchange</strong><span>Retro &amp; classic vehicles</span></div>
+      <p>Vehicle information, asking prices, and availability may change. Confirm all material facts before purchase.</p>
+      <div class="footer-links"><a href="tel:+13863840064">Call</a><a href="mailto:sales@bbautoexchange.com">Email</a><a href="privacy/">Privacy</a><a href="terms/">Terms</a></div>
+    </div>
+  </footer>
+
+  <dialog class="vehicle-dialog" id="vehicle-dialog" aria-labelledby="dialog-title">
+    <button class="dialog-close" type="button" data-dialog-close aria-label="Close vehicle details"><i data-lucide="x" aria-hidden="true"></i></button>
+    <div class="dialog-layout">
+      <div class="swiper vehicle-swiper">
+        <div class="swiper-wrapper" id="dialog-gallery"></div>
+        <button class="swiper-button-prev" type="button" aria-label="Previous photo"></button>
+        <button class="swiper-button-next" type="button" aria-label="Next photo"></button>
+        <div class="swiper-pagination"></div>
+      </div>
+      <div class="dialog-info">
+        <p class="dialog-stock" id="dialog-stock"></p>
+        <h2 id="dialog-title">Vehicle details</h2>
+        <p class="dialog-price" id="dialog-price"></p>
+        <p class="dialog-mood" id="dialog-mood"></p>
+        <dl id="dialog-specs"></dl>
+        <div class="dialog-actions"><button class="button button-full" id="dialog-lead" type="button">Check Availability</button><button class="button button-secondary button-full" id="dialog-video" type="button">Request Walk-Around Video</button></div>
+        <small>The published asking price is shown above. Availability and material vehicle facts may change.</small>
+      </div>
+    </div>
+  </dialog>
+
+  <nav class="floating-actions" aria-label="Quick contact">
+    <a href="tel:+13863840064" aria-label="Call B and B Auto Exchange"><i data-lucide="phone" aria-hidden="true"></i><span>Call</span></a>
+    <button type="button" data-chat-open aria-label="Open live chat"><i data-lucide="message-circle" aria-hidden="true"></i><span>Live chat</span></button>
+  </nav>
+
+  <nav class="mobile-cta" aria-label="Mobile quick contact"><a href="tel:+13863840064"><i data-lucide="phone" aria-hidden="true"></i>Call</a><button type="button" data-chat-open>Live chat</button></nav>
+
+  <script src="data/inventory.js"></script>
+  <script src="config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/imask@7.6.1/dist/imask.min.js" defer></script>
+  <script src="app.js" defer></script>
+</body>
+</html>
