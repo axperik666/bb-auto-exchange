@@ -7,8 +7,8 @@ window.SITE_CONFIG = {
   email: "Sales@bbautoexchange.com",
   address: "4855 FL-121, Worthington Springs, FL 32697",
   featuredVehicleId: "1969-chevrolet-camaro-ss-1648",
-  leadEndpoint: "/api/leads",
+  leadEndpoint: "https://classic-car-lead-gateway.elontraffer.chatgpt.site/api/leads/bb",
   liveChatLicense: "19886721",
   metaPixelId: "4653850014938779",
-  demoMode: true
+  demoMode: false
 };
