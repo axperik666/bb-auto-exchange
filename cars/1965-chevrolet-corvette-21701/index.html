@@ -1,18 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <!-- Generated vehicle route. Edit the root index and rerun generate_vehicle_routes.js. -->
-  <meta name="vehicle-id" content="1972-chevrolet-corvette">
+  <meta name="vehicle-id" content="1965-chevrolet-corvette-21701">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <base href="../../">
-  <meta name="description" content="1972 Chevrolet Corvette, stock 001622, offered at $28,500 by B &amp; B Auto Exchange. View ten real photos and ask about this exact vehicle.">
-  <meta property="og:title" content="1972 Chevrolet Corvette — $28,500 | B &amp; B Auto Exchange">
-  <meta property="og:description" content="1972 Chevrolet Corvette, stock 001622, offered at $28,500 by B &amp; B Auto Exchange. View ten real photos and ask about this exact vehicle.">
-  <meta property="og:image" content="../../assets/cars/1972-chevrolet-corvette-1.webp">
+  <meta name="description" content="1965 Chevrolet Corvette, stock 21701, offered at $91,000 by B &amp; B Auto Exchange. View ten real photos and ask about this exact vehicle.">
+  <meta property="og:title" content="1965 Chevrolet Corvette — $91,000 | B &amp; B Auto Exchange">
+  <meta property="og:description" content="1965 Chevrolet Corvette, stock 21701, offered at $91,000 by B &amp; B Auto Exchange. View ten real photos and ask about this exact vehicle.">
+  <meta property="og:image" content="../../assets/cars/1965-chevrolet-corvette-1.webp">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#0a0b0b">
-  <title>1972 Chevrolet Corvette — $28,500 | B &amp; B Auto Exchange</title>
+  <title>1965 Chevrolet Corvette — $91,000 | B &amp; B Auto Exchange</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -24,7 +24,7 @@
       <span>Worthington Springs, Florida</span>
       <span class="utility-dot" aria-hidden="true"></span>
       <span>Classic &amp; retro vehicles</span>
-      <div class="utility-phones" aria-label="B and B sales phone lines"><a href="tel:+13862046273">Call (386) 204-6273</a><a href="tel:+13865164216">Call (386) 516-4216</a></div>
+      <div class="utility-phones" role="group" aria-label="B and B sales phone lines"><a href="tel:+13863883230">Call&nbsp;(386)&nbsp;388&#8209;3230</a><a href="tel:+13862021130">Call&nbsp;(386)&nbsp;202&#8209;1130</a></div>
     </div>
   </aside>
 
@@ -55,7 +55,7 @@
             <button class="text-button" id="hero-video-cta" type="button" data-hero-request="Personal walk-around video"><i data-lucide="video" aria-hidden="true"></i><span>Request Walk-Around Video</span></button>
           </div>
           <ul class="garage-facts" aria-label="B and B inventory facts">
-            <li><strong>16</strong><span>current classics</span></li>
+            <li><strong id="inventory-total">12</strong><span>current listings</span></li>
             <li><strong>10</strong><span>photos per car</span></li>
             <li><strong>1:1</strong><span>walk-around on request</span></li>
           </ul>
@@ -65,8 +65,8 @@
           <span class="garage-watermark" aria-hidden="true">B&amp;B</span>
           <img id="hero-vehicle-image" src="assets/cars/1969-chevrolet-camaro-ss-1.webp" alt="Red 1969 Chevrolet Camaro SS shown completely from a front three-quarter angle" width="1200" height="800">
           <figcaption>
-            <span><small id="hero-vehicle-kicker">FEATURED CURRENT LISTING</small><strong id="hero-vehicle-title">1969 Chevrolet Camaro SS</strong><em id="hero-vehicle-meta">$25,999 · STOCK 001648</em></span>
-            <button id="hero-vehicle-button" type="button" data-vehicle="1969-chevrolet-camaro-ss">See all 10 photos <i data-lucide="arrow-up-right" aria-hidden="true"></i></button>
+            <span><small id="hero-vehicle-kicker">FEATURED CURRENT LISTING</small><strong id="hero-vehicle-title">1969 Chevrolet Camaro SS</strong><em id="hero-vehicle-meta">$98,400 · STOCK 001648</em></span>
+            <button id="hero-vehicle-button" type="button" data-vehicle="1969-chevrolet-camaro-ss-1648">See all 10 photos <i data-lucide="arrow-up-right" aria-hidden="true"></i></button>
           </figcaption>
         </figure>
       </div>
@@ -94,7 +94,7 @@
             <p class="eyebrow dark">CURRENT B&amp;B COLLECTION</p>
             <h2 id="inventory-heading-title">These are the cars for sale.</h2>
           </div>
-          <p>Open the exact vehicle you came to see. Each listing has its own asking price, specifications, stock number, and ten-photo gallery.</p>
+          <p id="inventory-heading-copy">Open the exact vehicle you came to see. Each listing has its own asking price, specifications, stock number, and ten-photo gallery.</p>
         </div>
 
         <div class="filters reveal" role="group" aria-label="Inventory filters">
@@ -106,6 +106,7 @@
         </div>
 
         <div class="inventory-grid" id="inventory-grid"></div>
+        <button class="inventory-more" id="inventory-more" type="button" aria-controls="inventory-grid" hidden></button>
       </div>
     </section>
 
@@ -120,7 +121,7 @@
             <li><i data-lucide="badge-check" aria-hidden="true"></i>Ask if this exact vehicle is still available</li>
             <li><i data-lucide="truck" aria-hidden="true"></i>Ask about delivery to your ZIP code</li>
           </ul>
-          <div class="lead-call-lines"><span>Prefer to call?</span><a href="tel:+13862046273">+1 (386) 204-6273</a><a href="tel:+13865164216">+1 (386) 516-4216</a></div>
+          <div class="lead-call-lines"><span>Prefer to call?</span><a href="tel:+13863883230">+1&nbsp;(386)&nbsp;388&#8209;3230</a><a href="tel:+13862021130">+1&nbsp;(386)&nbsp;202&#8209;1130</a></div>
         </div>
 
         <aside class="lead-card reveal" id="lead-form-card" aria-labelledby="lead-title">
@@ -166,7 +167,7 @@
     <section class="contact-section" id="visit">
       <div class="shell contact-grid">
         <div class="map-panel reveal">
-          <a class="map-visual" href="https://www.google.com/maps/search/?api=1&amp;query=4855%20FL-121%2C%20Worthington%20Springs%2C%20FL%2032697" target="_blank" rel="noreferrer" aria-label="Open directions to B and B Auto Exchange in Google Maps">
+          <a class="map-visual" href="https://www.google.com/maps/dir/?api=1&amp;destination=B%20%26%20B%20Auto%20Exchange%2C%204855%20FL-121%2C%20Worthington%20Springs%2C%20FL%2032697" target="_blank" rel="noreferrer" aria-label="Open directions to B and B Auto Exchange in Google Maps">
             <span class="map-route-label">ROUTE TO THE SHOWROOM</span>
             <span class="map-marker"><i data-lucide="map-pin" aria-hidden="true"></i><strong>B &amp; B AUTO EXCHANGE</strong><small>Worthington Springs, Florida</small></span>
             <span class="map-open">Open turn-by-turn directions <i data-lucide="arrow-up-right" aria-hidden="true"></i></span>
@@ -177,12 +178,12 @@
           <h2>See it in person. Start with an appointment.</h2>
           <address>4855 FL-121<br>Worthington Springs, FL 32697</address>
           <dl>
-            <div><dt>Phone</dt><dd class="contact-phone-lines"><a href="tel:+13862046273">+1 (386) 204-6273</a><a href="tel:+13865164216">+1 (386) 516-4216</a></dd></div>
+            <div><dt>Phone</dt><dd class="contact-phone-lines"><a href="tel:+13863883230">+1&nbsp;(386)&nbsp;388&#8209;3230</a><a href="tel:+13862021130">+1&nbsp;(386)&nbsp;202&#8209;1130</a></dd></div>
             <div><dt>Email</dt><dd><a href="mailto:Sales@bbautoexchange.com">Sales@bbautoexchange.com</a></dd></div>
             <div><dt>Hours</dt><dd>Mon–Fri 9:00 AM–6:00 PM<br>Saturday 10:00 AM–4:00 PM<br>Sunday by appointment</dd></div>
           </dl>
           <div class="contact-actions">
-            <a class="button" href="https://www.google.com/maps/search/?api=1&amp;query=4855%20FL-121%2C%20Worthington%20Springs%2C%20FL%2032697" target="_blank" rel="noreferrer">Open in Google Maps</a>
+            <a class="button" href="https://www.google.com/maps/dir/?api=1&amp;destination=B%20%26%20B%20Auto%20Exchange%2C%204855%20FL-121%2C%20Worthington%20Springs%2C%20FL%2032697" target="_blank" rel="noreferrer">Get directions in Google Maps</a>
           </div>
         </div>
       </div>
@@ -203,9 +204,9 @@
     <section class="final-cta">
       <div class="shell final-inner reveal">
         <p class="eyebrow">ONE CONVERSATION CAN ANSWER THE QUESTION</p>
-        <h2>Is this the one?</h2>
-        <p>Open the listing you want, review all ten photos, then ask about that exact car.</p>
-        <a class="button" href="#inventory">Choose the exact car</a>
+        <h2 id="final-cta-heading">Is this the one?</h2>
+        <p id="final-cta-copy">Open the listing you want, review all ten photos, then ask about that exact car.</p>
+        <a class="button" id="final-cta-link" href="#inventory">Choose the exact car</a>
       </div>
     </section>
   </main>
@@ -214,17 +215,17 @@
     <div class="shell footer-inner">
       <div><strong>B &amp; B Auto Exchange</strong><span>Retro &amp; classic vehicles</span></div>
       <p>Vehicle information, asking prices, and availability may change. Confirm all material facts before purchase.</p>
-      <div class="footer-links"><a href="tel:+13862046273">(386) 204-6273</a><a href="tel:+13865164216">(386) 516-4216</a><a href="mailto:Sales@bbautoexchange.com">Sales@bbautoexchange.com</a><a href="privacy/">Privacy</a><a href="terms/">Terms</a></div>
+      <div class="footer-links"><a href="tel:+13863883230">(386)&nbsp;388&#8209;3230</a><a href="tel:+13862021130">(386)&nbsp;202&#8209;1130</a><a href="mailto:Sales@bbautoexchange.com">Sales@bbautoexchange.com</a><a href="privacy/">Privacy</a><a href="terms/">Terms</a></div>
     </div>
   </footer>
 
   <nav class="floating-actions" aria-label="Quick contact">
-    <a href="tel:+13862046273" aria-label="Call B and B Auto Exchange at 386-204-6273"><i data-lucide="phone" aria-hidden="true"></i><span>204-6273</span></a>
-    <a href="tel:+13865164216" aria-label="Call B and B Auto Exchange at 386-516-4216"><i data-lucide="phone" aria-hidden="true"></i><span>516-4216</span></a>
+    <a href="tel:+13863883230" aria-label="Call the first B and B sales line"><i data-lucide="phone" aria-hidden="true"></i><span>388&#8209;3230</span></a>
+    <a href="tel:+13862021130" aria-label="Call the second B and B sales line"><i data-lucide="phone" aria-hidden="true"></i><span>202&#8209;1130</span></a>
     <button type="button" data-chat-open aria-label="Open live chat"><i data-lucide="message-circle" aria-hidden="true"></i><span>Live chat</span></button>
   </nav>
 
-  <nav class="mobile-cta" aria-label="Mobile quick contact"><a href="tel:+13862046273" aria-label="Call 386-204-6273"><span>Call</span><small>204-6273</small></a><a href="tel:+13865164216" aria-label="Call 386-516-4216"><span>Call</span><small>516-4216</small></a><button type="button" data-chat-open>Live chat</button></nav>
+  <nav class="mobile-cta" aria-label="Mobile quick contact"><a href="tel:+13863883230" aria-label="Call the first B and B sales line"><span>Call</span><small>388&#8209;3230</small></a><a href="tel:+13862021130" aria-label="Call the second B and B sales line"><span>Call</span><small>202&#8209;1130</small></a><button type="button" data-chat-open>Live chat</button></nav>
 
   <script src="data/inventory.js"></script>
   <script src="config.js"></script>
