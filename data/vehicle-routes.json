@@ -14,6 +14,13 @@
     "path": "/cars/1956-chevrolet-bel-air-21725/"
   },
   {
+    "id": "1957-ford-thunderbird",
+    "title": "1957 Ford Thunderbird",
+    "stock": "001604",
+    "price": 78000,
+    "path": "/cars/1957-ford-thunderbird/"
+  },
+  {
     "id": "1962-chevrolet-impala",
     "title": "1962 Chevrolet Impala",
     "stock": "001600",
@@ -35,6 +42,27 @@
     "path": "/cars/1965-ford-mustang-21748/"
   },
   {
+    "id": "1965-ford-mustang",
+    "title": "1965 Ford Mustang Fastback",
+    "stock": "001614",
+    "price": 112900,
+    "path": "/cars/1965-ford-mustang/"
+  },
+  {
+    "id": "1966-pontiac-gto-21759",
+    "title": "1966 Pontiac GTO",
+    "stock": "21759",
+    "price": 42300,
+    "path": "/cars/1966-pontiac-gto-21759/"
+  },
+  {
+    "id": "1966-ford-mustang-1598",
+    "title": "1966 Ford Mustang Convertible",
+    "stock": "001598",
+    "price": 53500,
+    "path": "/cars/1966-ford-mustang-1598/"
+  },
+  {
     "id": "1967-ford-mustang-21715",
     "title": "1967 Ford Mustang",
     "stock": "21715",
@@ -42,11 +70,32 @@
     "path": "/cars/1967-ford-mustang-21715/"
   },
   {
+    "id": "1967-ford-mustang-1607",
+    "title": "1967 Ford Mustang Fastback",
+    "stock": "001607",
+    "price": 15900,
+    "path": "/cars/1967-ford-mustang-1607/"
+  },
+  {
+    "id": "1967-ford-mustang-1627",
+    "title": "1967 Ford Mustang Convertible",
+    "stock": "001627",
+    "price": 14200,
+    "path": "/cars/1967-ford-mustang-1627/"
+  },
+  {
     "id": "1967-pontiac-firebird-21727",
     "title": "1967 Pontiac Firebird",
     "stock": "21727",
     "price": 62000,
     "path": "/cars/1967-pontiac-firebird-21727/"
+  },
+  {
+    "id": "1968-chevrolet-camaro-21743",
+    "title": "1968 Chevrolet Camaro",
+    "stock": "21743",
+    "price": 16300,
+    "path": "/cars/1968-chevrolet-camaro-21743/"
   },
   {
     "id": "1969-chevrolet-camaro-ss-1648",
