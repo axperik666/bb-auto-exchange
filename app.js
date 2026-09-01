@@ -3,6 +3,7 @@
 
   const inventory = Array.isArray(window.INVENTORY) ? window.INVENTORY : [];
   const config = window.SITE_CONFIG || {};
+  const metaPixelIds = getMetaPixelIds();
   const callLines = (Array.isArray(config.phones) && config.phones.length ? config.phones : [config.phone]).filter(Boolean).join(" or ");
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
@@ -13,6 +14,8 @@
   let lastSubmissionAt = 0;
   let inventoryExpanded = false;
   let lastCompactMode = matchMedia("(max-width: 760px)").matches;
+  const initializedMetaPixelIds = new Set();
+  const pageViewTrackedPixelIds = new Set();
   const pathVehicleMatch = location.pathname.match(/\/cars\/([^/]+)\/?$/i);
   const requestedVehicleId = (pathVehicleMatch && decodeURIComponent(pathVehicleMatch[1])) || new URLSearchParams(location.search).get("vehicle");
   const campaignVehicle = inventory.find((vehicle) => vehicle.id === requestedVehicleId) || null;
@@ -20,6 +23,20 @@
 
   function isPreview() {
     return Boolean(config.demoMode) || location.protocol === "file:" || ["localhost", "127.0.0.1"].includes(location.hostname);
+  }
+
+  function getMetaPixelIds() {
+    const configuredIds = Array.isArray(config.metaPixelIds) ? config.metaPixelIds : [config.metaPixelId];
+    return [...new Set(configuredIds.map((id) => String(id || "").trim()).filter((id) => /^\d{5,20}$/.test(id)))];
+  }
+
+  function trackMetaEvent(eventName, parameters = {}, { custom = false, eventId = "" } = {}) {
+    if (!window.fbq || !metaPixelIds.length) return;
+    const command = custom ? "trackSingleCustom" : "trackSingle";
+    metaPixelIds.forEach((pixelId) => {
+      if (eventId) window.fbq(command, pixelId, eventName, parameters, { eventID: eventId });
+      else window.fbq(command, pixelId, eventName, parameters);
+    });
   }
 
   function captureAttribution() {
@@ -36,7 +53,7 @@
   }
 
   function loadMetaPixel() {
-    if (isPreview() || !config.metaPixelId || window.fbq) return;
+    if (isPreview() || !metaPixelIds.length) return;
     (function (f, b, e, v, n, t, s) {
       if (f.fbq) return;
       n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
@@ -45,8 +62,16 @@
       t = b.createElement(e); t.async = true; t.src = v;
       s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
     })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
-    window.fbq("init", config.metaPixelId);
-    window.fbq("track", "PageView");
+    metaPixelIds.forEach((pixelId) => {
+      if (!initializedMetaPixelIds.has(pixelId)) {
+        window.fbq("init", pixelId);
+        initializedMetaPixelIds.add(pixelId);
+      }
+      if (!pageViewTrackedPixelIds.has(pixelId)) {
+        window.fbq("trackSingle", pixelId, "PageView");
+        pageViewTrackedPixelIds.add(pixelId);
+      }
+    });
   }
 
   function loadLiveChat() {
@@ -66,7 +91,7 @@
   function openChat() {
     if (window.LiveChatWidget && typeof window.LiveChatWidget.call === "function") {
       window.LiveChatWidget.call("maximize");
-      if (window.fbq) window.fbq("trackCustom", "LiveChatOpen");
+      trackMetaEvent("LiveChatOpen", {}, { custom: true });
       return;
     }
     openLead();
@@ -91,7 +116,7 @@
   function trackVehicleView(vehicle) {
     if (!window.fbq || lastTrackedVehicleId === vehicle.id) return;
     lastTrackedVehicleId = vehicle.id;
-    window.fbq("track", "ViewContent", { content_name: vehicle.title, content_ids: [vehicle.id], content_type: "vehicle", vehicle_stock: vehicle.stock || "", value: vehicle.price, currency: "USD" });
+    trackMetaEvent("ViewContent", { content_name: vehicle.title, content_ids: [vehicle.id], content_type: "vehicle", vehicle_stock: vehicle.stock || "", value: vehicle.price, currency: "USD" });
   }
 
   function setupSectionLinks() {
@@ -297,6 +322,7 @@
     const requestType = String(data.get("requestType") || "Availability and details");
     const delivery = data.get("deliveryNeeded") ? "Delivery may be needed" : "No delivery request selected";
     const payload = {
+      leadId: newLeadId(),
       type: "vehicle-inquiry",
       dealerId: config.dealerId,
       dealerName: config.brand,
@@ -346,7 +372,15 @@
       status.classList.add("success");
       status.textContent = body.message || "Request received. The B&B team will use your details to follow up.";
       form.reset();
-      if (window.fbq) window.fbq("track", "Lead", { content_name: vehicle ? vehicle.title : "Inventory inquiry", value: vehicle ? vehicle.price : 0, currency: "USD" });
+      trackMetaEvent("Lead", {
+        content_name: vehicle ? vehicle.title : "Inventory inquiry",
+        content_ids: vehicle ? [vehicle.id] : [],
+        content_type: "vehicle",
+        vehicle_stock: vehicle ? vehicle.stock || "" : "",
+        value: vehicle ? vehicle.price : 0,
+        currency: "USD",
+        lead_source: "website"
+      }, { eventId: payload.leadId });
     } catch (error) {
       status.classList.add("error");
       status.textContent = `${error.message} Please call ${callLines}.`;

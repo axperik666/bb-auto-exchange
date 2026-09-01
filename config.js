@@ -9,6 +9,6 @@ window.SITE_CONFIG = {
   featuredVehicleId: "1969-chevrolet-camaro-ss-1648",
   leadEndpoint: "https://classic-car-lead-gateway.elontraffer.chatgpt.site/api/leads/bb",
   liveChatLicense: "19886721",
-  metaPixelId: "4653850014938779",
+  metaPixelIds: ["1513226503894938", "1395062286148687"],
   demoMode: false
 };
