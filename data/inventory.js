@@ -110,7 +110,6 @@ window.INVENTORY = [
       "assets/cars/1962-chevrolet-impala-5.webp",
       "assets/cars/1962-chevrolet-impala-6.webp",
       "assets/cars/1962-chevrolet-impala-7.webp",
-      "assets/cars/1962-chevrolet-impala-8.webp",
       "assets/cars/1962-chevrolet-impala-9.webp",
       "assets/cars/1962-chevrolet-impala-10.webp"
     ]
@@ -198,8 +197,7 @@ window.INVENTORY = [
       "assets/cars/1965-ford-mustang-001614-6.webp",
       "assets/cars/1965-ford-mustang-001614-7.webp",
       "assets/cars/1965-ford-mustang-001614-8.webp",
-      "assets/cars/1965-ford-mustang-001614-9.webp",
-      "assets/cars/1965-ford-mustang-001614-10.webp"
+      "assets/cars/1965-ford-mustang-001614-9.webp"
     ]
   },
   {
@@ -227,8 +225,7 @@ window.INVENTORY = [
       "assets/cars/1966-pontiac-gto-21759-6.webp",
       "assets/cars/1966-pontiac-gto-21759-7.webp",
       "assets/cars/1966-pontiac-gto-21759-8.webp",
-      "assets/cars/1966-pontiac-gto-21759-9.webp",
-      "assets/cars/1966-pontiac-gto-21759-10.webp"
+      "assets/cars/1966-pontiac-gto-21759-9.webp"
     ]
   },
   {
@@ -314,8 +311,7 @@ window.INVENTORY = [
       "assets/cars/1967-ford-mustang-1607-6.webp",
       "assets/cars/1967-ford-mustang-1607-7.webp",
       "assets/cars/1967-ford-mustang-1607-8.webp",
-      "assets/cars/1967-ford-mustang-1607-9.webp",
-      "assets/cars/1967-ford-mustang-1607-10.webp"
+      "assets/cars/1967-ford-mustang-1607-9.webp"
     ]
   },
   {
@@ -343,8 +339,7 @@ window.INVENTORY = [
       "assets/cars/1967-ford-mustang-1627-6.webp",
       "assets/cars/1967-ford-mustang-1627-7.webp",
       "assets/cars/1967-ford-mustang-1627-8.webp",
-      "assets/cars/1967-ford-mustang-1627-9.webp",
-      "assets/cars/1967-ford-mustang-1627-10.webp"
+      "assets/cars/1967-ford-mustang-1627-9.webp"
     ]
   },
   {
@@ -426,7 +421,6 @@ window.INVENTORY = [
       "assets/cars/1969-chevrolet-camaro-ss-2.webp",
       "assets/cars/1969-chevrolet-camaro-ss-3.webp",
       "assets/cars/1969-chevrolet-camaro-ss-4.webp",
-      "assets/cars/1969-chevrolet-camaro-ss-5.webp",
       "assets/cars/1969-chevrolet-camaro-ss-6.webp",
       "assets/cars/1969-chevrolet-camaro-ss-7.webp",
       "assets/cars/1969-chevrolet-camaro-ss-8.webp",

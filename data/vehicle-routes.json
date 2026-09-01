@@ -4,6 +4,7 @@
     "title": "1955 Ford Thunderbird",
     "stock": "001633",
     "price": 15500,
+    "photoCount": 10,
     "path": "/cars/1955-ford-thunderbird/"
   },
   {
@@ -11,6 +12,7 @@
     "title": "1956 Chevrolet Bel Air",
     "stock": "21725",
     "price": 102100,
+    "photoCount": 10,
     "path": "/cars/1956-chevrolet-bel-air-21725/"
   },
   {
@@ -18,6 +20,7 @@
     "title": "1957 Ford Thunderbird",
     "stock": "001604",
     "price": 78000,
+    "photoCount": 10,
     "path": "/cars/1957-ford-thunderbird/"
   },
   {
@@ -25,6 +28,7 @@
     "title": "1962 Chevrolet Impala",
     "stock": "001600",
     "price": 94600,
+    "photoCount": 9,
     "path": "/cars/1962-chevrolet-impala/"
   },
   {
@@ -32,6 +36,7 @@
     "title": "1965 Chevrolet Corvette",
     "stock": "21701",
     "price": 91000,
+    "photoCount": 10,
     "path": "/cars/1965-chevrolet-corvette-21701/"
   },
   {
@@ -39,6 +44,7 @@
     "title": "1965 Ford Mustang",
     "stock": "21748",
     "price": 12100,
+    "photoCount": 10,
     "path": "/cars/1965-ford-mustang-21748/"
   },
   {
@@ -46,6 +52,7 @@
     "title": "1965 Ford Mustang Fastback",
     "stock": "001614",
     "price": 112900,
+    "photoCount": 9,
     "path": "/cars/1965-ford-mustang/"
   },
   {
@@ -53,6 +60,7 @@
     "title": "1966 Pontiac GTO",
     "stock": "21759",
     "price": 42300,
+    "photoCount": 9,
     "path": "/cars/1966-pontiac-gto-21759/"
   },
   {
@@ -60,6 +68,7 @@
     "title": "1966 Ford Mustang Convertible",
     "stock": "001598",
     "price": 53500,
+    "photoCount": 10,
     "path": "/cars/1966-ford-mustang-1598/"
   },
   {
@@ -67,6 +76,7 @@
     "title": "1967 Ford Mustang",
     "stock": "21715",
     "price": 35700,
+    "photoCount": 10,
     "path": "/cars/1967-ford-mustang-21715/"
   },
   {
@@ -74,6 +84,7 @@
     "title": "1967 Ford Mustang Fastback",
     "stock": "001607",
     "price": 15900,
+    "photoCount": 9,
     "path": "/cars/1967-ford-mustang-1607/"
   },
   {
@@ -81,6 +92,7 @@
     "title": "1967 Ford Mustang Convertible",
     "stock": "001627",
     "price": 14200,
+    "photoCount": 9,
     "path": "/cars/1967-ford-mustang-1627/"
   },
   {
@@ -88,6 +100,7 @@
     "title": "1967 Pontiac Firebird",
     "stock": "21727",
     "price": 62000,
+    "photoCount": 10,
     "path": "/cars/1967-pontiac-firebird-21727/"
   },
   {
@@ -95,6 +108,7 @@
     "title": "1968 Chevrolet Camaro",
     "stock": "21743",
     "price": 16300,
+    "photoCount": 10,
     "path": "/cars/1968-chevrolet-camaro-21743/"
   },
   {
@@ -102,6 +116,7 @@
     "title": "1969 Chevrolet Camaro SS",
     "stock": "001648",
     "price": 98400,
+    "photoCount": 9,
     "path": "/cars/1969-chevrolet-camaro-ss-1648/"
   },
   {
@@ -109,6 +124,7 @@
     "title": "1969 Chevrolet Chevelle",
     "stock": "21739",
     "price": 67700,
+    "photoCount": 10,
     "path": "/cars/1969-chevrolet-chevelle-21739/"
   },
   {
@@ -116,6 +132,7 @@
     "title": "1969 Oldsmobile 442",
     "stock": "001628",
     "price": 37000,
+    "photoCount": 10,
     "path": "/cars/1969-oldsmobile-442/"
   },
   {
@@ -123,6 +140,7 @@
     "title": "1973 Ford Mustang Mach 1",
     "stock": "21752",
     "price": 47200,
+    "photoCount": 10,
     "path": "/cars/1973-ford-mustang-mach-1-21752/"
   },
   {
@@ -130,6 +148,7 @@
     "title": "1979 Pontiac Firebird Trans Am",
     "stock": "21704",
     "price": 49000,
+    "photoCount": 10,
     "path": "/cars/1979-pontiac-firebird-trans-am-21704/"
   }
 ]
