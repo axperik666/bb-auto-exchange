@@ -25,14 +25,25 @@
     return Boolean(config.demoMode) || location.protocol === "file:" || ["localhost", "127.0.0.1"].includes(location.hostname);
   }
 
-  function mobileImage(src) {
-    return src.replace(/\.webp$/i, "-480.webp");
+  function assetPath(src) {
+    if (/^(?:https?:)?\/\//i.test(src) || src.startsWith("/")) return src;
+    return `/${src.replace(/^\.\//, "")}`;
+  }
+
+  function responsiveImage(src, width) {
+    return assetPath(src).replace(/\.webp$/i, `-${width}.webp`);
+  }
+
+  function responsiveSrcset(src) {
+    const source = assetPath(src);
+    return `${responsiveImage(source, 480)} 480w, ${responsiveImage(source, 800)} 800w, ${source} 1200w`;
   }
 
   function setResponsiveImage(image, src) {
     if (!image || !src) return;
-    image.src = src;
-    image.srcset = `${mobileImage(src)} 480w, ${src} 1200w`;
+    const source = assetPath(src);
+    image.srcset = responsiveSrcset(source);
+    image.src = source;
   }
 
   function validatePhoneInput(input, report = false) {
@@ -169,7 +180,7 @@
     if (descriptionMeta) descriptionMeta.content = description;
     if (ogTitle) ogTitle.content = title;
     if (ogDescription) ogDescription.content = description;
-    if (ogImage) ogImage.content = new URL(vehicle.images[0], document.baseURI).href;
+    if (ogImage) ogImage.content = new URL(assetPath(vehicle.images[0]), location.origin).href;
     if (vehicleMeta) vehicleMeta.content = vehicle.id;
   }
 
@@ -196,14 +207,14 @@
 
   function setVehicleUrl(vehicle) {
     const current = new URL(location.href);
-    const url = new URL(`cars/${encodeURIComponent(vehicle.id)}/`, document.baseURI);
+    const url = new URL(`/cars/${encodeURIComponent(vehicle.id)}/`, location.origin);
     current.searchParams.forEach((value, key) => { if (key !== "vehicle") url.searchParams.append(key, value); });
     history.replaceState({ vehicle: vehicle.id }, "", url);
   }
 
   function vehicleHref(vehicle) {
     const current = new URL(location.href);
-    const url = new URL(`cars/${encodeURIComponent(vehicle.id)}/`, document.baseURI);
+    const url = new URL(`/cars/${encodeURIComponent(vehicle.id)}/`, location.origin);
     current.searchParams.forEach((value, key) => { if (key !== "vehicle") url.searchParams.append(key, value); });
     return url.href;
   }
@@ -215,7 +226,10 @@
     $("#campaign-proof-price").textContent = `${money.format(vehicle.price)} asking price${vehicle.stock ? ` · Stock ${vehicle.stock}` : ""}`;
     $("#campaign-proof-mood").textContent = vehicle.mood;
     $("#campaign-proof-specs").innerHTML = [["Engine", vehicle.engine], ["Transmission", vehicle.transmission], ["Mileage", vehicle.mileage], ["Body", vehicle.body], ["Exterior", vehicle.exterior], ["Interior", vehicle.interior]].filter(([, value]) => value).map(([label, value]) => `<div><dt>${label}</dt><dd>${value}</dd></div>`).join("");
-    $("#campaign-proof-photos").innerHTML = vehicle.images.map((src, index) => `<img src="${src}" srcset="${mobileImage(src)} 480w, ${src} 1200w" sizes="(max-width: 760px) calc(100vw - 28px), 50vw" alt="${vehicle.title}, listing photo ${index + 1} of ${vehicle.images.length}" width="1200" height="800" loading="lazy" decoding="async">`).join("");
+    $("#campaign-proof-photos").innerHTML = vehicle.images.map((src, index) => {
+      const source = assetPath(src);
+      return `<img src="${source}" srcset="${responsiveSrcset(source)}" sizes="(max-width: 760px) calc(100vw - 28px), 50vw" alt="${vehicle.title}, listing photo ${index + 1} of ${vehicle.images.length}" width="1200" height="800" loading="lazy" decoding="async">`;
+    }).join("");
     $("[data-campaign-gallery]").textContent = `See All ${vehicle.images.length} Photos`;
     $("#hero-headline").textContent = `${vehicle.title}. The exact classic from your ad.`;
     $("#hero-lede").textContent = `${money.format(vehicle.price)} asking price${vehicle.stock ? `, stock ${vehicle.stock}` : ""}. Review real photos and listing details, then ask about this exact car.`;
@@ -279,7 +293,7 @@
       <article class="vehicle-card reveal-card ${campaignVehicle && campaignVehicle.id === vehicle.id ? "campaign-match" : ""}"${collapsed ? " hidden" : ""}>
         <a href="${vehicleHref(vehicle)}" data-vehicle="${vehicle.id}">
           <div class="vehicle-photo">
-            <img src="${vehicle.images[0]}" srcset="${mobileImage(vehicle.images[0])} 480w, ${vehicle.images[0]} 1200w" sizes="(max-width: 760px) calc(100vw - 30px), (max-width: 1180px) 50vw, 33vw" alt="${vehicle.title}" loading="lazy" decoding="async" width="1200" height="800">
+            <img src="${assetPath(vehicle.images[0])}" srcset="${responsiveSrcset(vehicle.images[0])}" sizes="(max-width: 760px) calc(100vw - 30px), (max-width: 1180px) 50vw, 33vw" alt="${vehicle.title}" loading="lazy" decoding="async" width="1200" height="800">
             <span class="vehicle-year">${vehicle.year}</span>
             <span class="vehicle-status">${campaignVehicle && campaignVehicle.id === vehicle.id ? "FROM YOUR AD" : "CURRENT LISTING"}</span>
           </div>
