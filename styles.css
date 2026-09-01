@@ -262,6 +262,7 @@ footer { padding: 34px 0; color: #aeb0ac; background: #050606; font-size: 14px; 
 .floating-actions { position: fixed; right: 18px; bottom: 20px; z-index: 70; display: grid; gap: 9px; }
 .floating-actions a, .floating-actions button { min-width: 112px; min-height: 46px; display: flex; align-items: center; gap: 9px; padding: 0 13px; color: #fff; background: #181a19; border: 1px solid rgba(255,255,255,.2); border-radius: 3px; box-shadow: 0 8px 25px rgba(0,0,0,.25); font-size: 14px; font-weight: 700; text-decoration: none; }
 .floating-actions button { background: #1f7a4a; }
+.vehicle-landing .floating-actions .vehicle-lead-cta { color: #111; background: var(--amber); border-color: var(--amber); }
 .floating-actions svg { width: 19px; }
 .mobile-cta { display: none; }
 
@@ -389,8 +390,13 @@ footer { padding: 34px 0; color: #aeb0ac; background: #050606; font-size: 14px; 
 .campaign-proof-photos img:first-child { grid-row: 1 / 3; }
 .vehicle-landing .inventory-section { padding-top: 95px; }
 .vehicle-landing .vehicle-request-priority { border-top: 8px solid var(--amber); }
+.phone-format-hint { display: block; margin-top: 7px; color: #66645e; font-size: 13px; font-weight: 600; line-height: 1.35; text-transform: none; }
 
 @media (max-width: 760px) {
+  .vehicle-landing .mobile-cta { grid-template-columns: .85fr .85fr 1.15fr .75fr; }
+  .vehicle-landing .mobile-cta .vehicle-lead-cta { color: #111; background: var(--amber); }
+  .vehicle-landing .mobile-cta [data-chat-open] { color: #fff; background: #222522; border-left: 1px solid rgba(255,255,255,.18); }
+  .mobile-cta button small { color: inherit; font-size: 11px; line-height: 1; }
   .campaign-proof { padding: 70px 0; }
   .campaign-proof-grid { grid-template-columns: 1fr; gap: 35px; }
   .campaign-proof-copy h2 { font-size: 43px; }

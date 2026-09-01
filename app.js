@@ -25,6 +25,47 @@
     return Boolean(config.demoMode) || location.protocol === "file:" || ["localhost", "127.0.0.1"].includes(location.hostname);
   }
 
+  function validatePhoneInput(input, report = false) {
+    if (!input) return false;
+    const digits = input.value.replace(/\D/g, "");
+    input.setCustomValidity(digits.length >= 7 ? "" : "Enter at least 7 digits. You may use +, spaces, parentheses, or dashes.");
+    if (report && !input.checkValidity()) input.reportValidity();
+    return input.checkValidity();
+  }
+
+  function setupFlexiblePhoneInputs() {
+    $$("input[type='tel']").forEach((input) => {
+      input.inputMode = "tel";
+      input.autocomplete = "tel";
+      input.maxLength = 40;
+      input.placeholder = "+1 (555) 555-5555";
+      input.setAttribute("aria-describedby", `${input.id || input.name}-format-hint`);
+      input.addEventListener("input", () => validatePhoneInput(input));
+      const hint = document.createElement("small");
+      hint.className = "phone-format-hint";
+      hint.id = `${input.id || input.name}-format-hint`;
+      hint.textContent = "Any phone format is fine — include +1 or another country code if needed.";
+      input.insertAdjacentElement("afterend", hint);
+    });
+  }
+
+  function setupVehicleQuickRequest() {
+    if (!campaignVehicle) return;
+    [$(".floating-actions"), $(".mobile-cta")].filter(Boolean).forEach((bar) => {
+      const chatButton = $("[data-chat-open]", bar);
+      if (!chatButton || $(".vehicle-lead-cta", bar)) return;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "vehicle-lead-cta";
+      button.innerHTML = bar.classList.contains("mobile-cta")
+        ? "<span>Ask</span><small>This car</small>"
+        : '<i data-lucide="clipboard-check" aria-hidden="true"></i><span>Ask about this car</span>';
+      button.setAttribute("aria-label", `Ask about ${campaignVehicle.title}`);
+      button.addEventListener("click", () => openLead(campaignVehicle.id, "Availability and details"));
+      bar.insertBefore(button, chatButton);
+    });
+  }
+
   function getMetaPixelIds() {
     const configuredIds = Array.isArray(config.metaPixelIds) ? config.metaPixelIds : [config.metaPixelId];
     return [...new Set(configuredIds.map((id) => String(id || "").trim()).filter((id) => /^\d{5,20}$/.test(id)))];
@@ -316,7 +357,8 @@
     const form = event.currentTarget;
     const status = $(".form-status", form);
     status.className = "form-status";
-    if (!form.reportValidity()) return;
+    const phoneInput = $("input[name='phone']", form);
+    if (!validatePhoneInput(phoneInput, true) || !form.reportValidity()) return;
     const data = new FormData(form);
     const vehicle = inventory.find((row) => row.id === data.get("vehicleSlug"));
     const requestType = String(data.get("requestType") || "Availability and details");
@@ -403,8 +445,10 @@
     loadMetaPixel();
     loadLiveChat();
     populateSelect();
+    setupFlexiblePhoneInputs();
     applyHomepageFeaturedVehicle();
     applyCampaignVehicle();
+    setupVehicleQuickRequest();
     renderInventory();
     $$('[data-vehicle]', $(".garage-hero")).forEach((button) => button.addEventListener("click", () => openVehiclePage(button.dataset.vehicle)));
     [$("#filter-era"), $("#filter-transmission"), $("#filter-budget")].forEach((select) => select.addEventListener("change", renderInventory));
@@ -421,7 +465,6 @@
       campaignGallery.textContent = "All 10 photos shown";
       photos.scrollIntoView({ behavior: "smooth", block: "start" });
     });
-    if (window.IMask) $$("input[type='tel']").forEach((input) => window.IMask(input, { mask: "(000) 000-0000" }));
     addEventListener("resize", () => {
       const compactMode = matchMedia("(max-width: 760px)").matches;
       if (compactMode !== lastCompactMode && !inventoryExpanded) {
