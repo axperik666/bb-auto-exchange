@@ -86,6 +86,57 @@
     });
   }
 
+  function phoneHref(phone) {
+    return `tel:${String(phone || "").replace(/[^\d+]/g, "")}`;
+  }
+
+  function replaceWithCallLink(element, phone) {
+    if (!element || !phone) return;
+    const link = document.createElement("a");
+    link.className = element.className;
+    link.href = phoneHref(phone);
+    link.innerHTML = `<i data-lucide="phone" aria-hidden="true"></i><span>Call ${phone}</span>`;
+    element.replaceWith(link);
+  }
+
+  function setupCampaignLanding() {
+    if (!campaignVehicle) return;
+    const primaryPhone = (Array.isArray(config.phones) && config.phones[0]) || config.phone;
+    const vehicleSelect = $("#vehicle-select");
+    if (vehicleSelect) {
+      vehicleSelect.innerHTML = `<option value="${campaignVehicle.id}">${campaignVehicle.title} — ${money.format(campaignVehicle.price)}${campaignVehicle.stock ? ` — Stock ${campaignVehicle.stock}` : ""}</option>`;
+      vehicleSelect.value = campaignVehicle.id;
+      vehicleSelect.setAttribute("aria-label", "Exact vehicle from your ad");
+      vehicleSelect.closest("label")?.classList.add("vehicle-locked-field");
+    }
+
+    const email = $("#lead-form input[name='email']");
+    if (email) {
+      email.required = false;
+      email.setAttribute("aria-label", "Email address optional");
+      const label = email.closest("label");
+      if (label && label.firstChild && label.firstChild.nodeType === Node.TEXT_NODE) label.firstChild.textContent = "Email address (optional)";
+    }
+
+    const actions = $(".garage-hero .hero-actions");
+    if (actions && !$(".vehicle-certainty", actions.parentElement)) {
+      actions.insertAdjacentHTML("afterend", `<div class="vehicle-certainty" aria-label="Exact listing confirmation"><span><strong>Exact vehicle</strong>From your ad</span><span><strong>${campaignVehicle.images.length} real photos</strong>Of this listing</span><span><strong>${campaignVehicle.stock ? `Stock ${campaignVehicle.stock}` : "Current listing"}</strong>${money.format(campaignVehicle.price)} asking price</span></div>`);
+    }
+
+    replaceWithCallLink($("#hero-video-cta"), primaryPhone);
+  }
+
+  function setupPhoneTracking() {
+    $$('a[href^="tel:"]').forEach((link) => link.addEventListener("click", () => {
+      trackMetaEvent("PhoneClick", {
+        content_name: campaignVehicle ? campaignVehicle.title : "B & B Auto Exchange",
+        content_ids: campaignVehicle ? [campaignVehicle.id] : [],
+        vehicle_stock: campaignVehicle ? campaignVehicle.stock || "" : "",
+        phone_number: link.getAttribute("href").replace(/^tel:/, "")
+      }, { custom: true });
+    }));
+  }
+
   function getMetaPixelIds() {
     const configuredIds = Array.isArray(config.metaPixelIds) ? config.metaPixelIds : [config.metaPixelId];
     return [...new Set(configuredIds.map((id) => String(id || "").trim()).filter((id) => /^\d{5,20}$/.test(id)))];
@@ -231,10 +282,11 @@
       return `<img src="${source}" srcset="${responsiveSrcset(source)}" sizes="(max-width: 760px) calc(100vw - 28px), 50vw" alt="${vehicle.title}, listing photo ${index + 1} of ${vehicle.images.length}" width="1200" height="800" loading="lazy" decoding="async">`;
     }).join("");
     $("[data-campaign-gallery]").textContent = `See All ${vehicle.images.length} Photos`;
-    $("#hero-headline").textContent = `${vehicle.title}. The exact classic from your ad.`;
-    $("#hero-lede").textContent = `${money.format(vehicle.price)} asking price${vehicle.stock ? `, stock ${vehicle.stock}` : ""}. Review real photos and listing details, then ask about this exact car.`;
-    $("#inventory-heading-title").textContent = "Other current classics from B & B";
-    $("#inventory-heading-copy").textContent = "The vehicle above is shown only once. These are different current listings, each with its own stock number and asking price.";
+    $(".garage-hero .eyebrow").textContent = "THE EXACT VEHICLE FROM YOUR AD";
+    $("#hero-headline").textContent = vehicle.title;
+    $("#hero-lede").textContent = `This is the exact listing you opened. Review ${vehicle.images.length} real photos, the ${money.format(vehicle.price)} asking price${vehicle.stock ? `, and stock ${vehicle.stock}` : ""} — then call or send a request tied only to this car.`;
+    $("#inventory-heading-title").textContent = "Three more classics, if you want to compare.";
+    $("#inventory-heading-copy").textContent = "Your request remains tied to the vehicle above. These are separate listings with their own prices and stock numbers.";
     $("#final-cta-heading").textContent = `Ask about the ${vehicle.year} ${vehicle.title.replace(/^\d{4}\s+/, "")}`;
     $("#final-cta-copy").textContent = `Your request will stay tied to stock ${vehicle.stock || vehicle.id} and the published ${money.format(vehicle.price)} asking price.`;
     $("#final-cta-link").href = "#availability";
@@ -333,7 +385,7 @@
     const rows = filteredInventory();
     const hasFilters = [$("#filter-era").value, $("#filter-transmission").value, $("#filter-budget").value].some((value) => value !== "all");
     const compactMode = matchMedia("(max-width: 760px)").matches;
-    const initialLimit = campaignVehicle ? (compactMode ? 3 : 6) : (compactMode ? 6 : Infinity);
+    const initialLimit = campaignVehicle ? 3 : (compactMode ? 6 : Infinity);
     const visibleRows = !inventoryExpanded && !hasFilters ? rows.slice(0, initialLimit) : rows;
     $("#inventory-grid").innerHTML = rows.length
       ? rows.map((vehicle, index) => cardTemplate(vehicle, index >= visibleRows.length)).join("")
@@ -342,8 +394,8 @@
       ? `Showing ${visibleRows.length} of ${rows.length}`
       : `${rows.length} vehicle${rows.length === 1 ? "" : "s"}`;
     const moreButton = $("#inventory-more");
-    moreButton.hidden = visibleRows.length >= rows.length;
-    moreButton.textContent = campaignVehicle ? `Show all ${rows.length} other cars` : `Show all ${rows.length} cars`;
+    moreButton.hidden = campaignVehicle ? false : visibleRows.length >= rows.length;
+    moreButton.textContent = campaignVehicle ? `View all ${inventory.length} B & B cars` : `Show all ${rows.length} cars`;
     if (window.lucide) window.lucide.createIcons();
   }
 
@@ -368,6 +420,7 @@
     $("#request-type").value = requestType;
     $("#lead-title").textContent = `Ask about ${vehicle.title}`;
     $("#lead-context").textContent = `${money.format(vehicle.price)} asking price${vehicle.stock ? ` · Stock ${vehicle.stock}` : ""}. Your request will stay tied to this exact vehicle.`;
+    trackMetaEvent("LeadFormOpen", { content_name: vehicle.title, content_ids: [vehicle.id], vehicle_stock: vehicle.stock || "", request_type: requestType }, { custom: true });
     $("#lead-form-card").scrollIntoView({ behavior: "smooth", block: "center" });
     setTimeout(() => $("#lead-form input[name='firstName']").focus(), 450);
   }
@@ -475,12 +528,24 @@
     setupFlexiblePhoneInputs();
     applyHomepageFeaturedVehicle();
     applyCampaignVehicle();
+    setupCampaignLanding();
     setupVehicleQuickRequest();
+    setupPhoneTracking();
     renderInventory();
     $$('[data-vehicle]', $(".garage-hero")).forEach((button) => button.addEventListener("click", () => openVehiclePage(button.dataset.vehicle)));
     [$("#filter-era"), $("#filter-transmission"), $("#filter-budget")].forEach((select) => select.addEventListener("change", renderInventory));
     $("#filter-reset").addEventListener("click", () => { $("#filter-era").value = "all"; $("#filter-transmission").value = "all"; $("#filter-budget").value = "all"; inventoryExpanded = false; renderInventory(); });
-    $("#inventory-more").addEventListener("click", () => { inventoryExpanded = true; renderInventory(); });
+    $("#inventory-more").addEventListener("click", () => {
+      if (campaignVehicle) {
+        const url = new URL("/", location.origin);
+        new URLSearchParams(location.search).forEach((value, key) => url.searchParams.append(key, value));
+        url.hash = "inventory";
+        location.assign(url.href);
+        return;
+      }
+      inventoryExpanded = true;
+      renderInventory();
+    });
     $("#lead-form").addEventListener("submit", submitLead);
     $$('[data-chat-open]').forEach((button) => button.addEventListener("click", openChat));
     $$('[data-hero-request]').forEach((button) => button.addEventListener("click", () => openLead((campaignVehicle || featuredVehicle).id, button.dataset.heroRequest)));
