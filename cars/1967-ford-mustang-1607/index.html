@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="vehicle-landing">
 <head>
   <!-- Generated vehicle route. Edit the root index and rerun generate_vehicle_routes.js. -->
   <meta name="vehicle-id" content="1967-ford-mustang-1607">
@@ -19,7 +19,7 @@
   <link rel="preload" href="/assets/fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=hero-nav-20260902">
 </head>
 <body>
   <a class="skip-link" href="#inventory">Skip to inventory</a>
@@ -35,13 +35,13 @@
 
   <header class="site-header">
     <div class="shell header-inner">
-      <a class="brand" href="#top">
+      <a class="brand" href="./" aria-label="B and B Auto Exchange home">
         <span class="brand-mark"><b>B</b><i>&amp;</i><b>B</b></span>
         <span class="brand-copy">AUTO EXCHANGE<small>WORTHINGTON SPRINGS · FLORIDA</small></span>
       </a>
       <nav aria-label="Main navigation">
         <a href="#inventory">Inventory</a>
-        <a href="#process">How it works</a>
+        <a href="./#process">How it works</a>
         <a href="#visit">Visit</a>
       </nav>
       <a class="button button-small" href="#inventory">View cars for sale</a>
@@ -53,7 +53,7 @@
       <div class="shell garage-hero-grid">
         <div class="garage-hero-copy reveal">
           <p class="eyebrow">REAL CLASSICS. REAL PHOTOS. A REAL PERSON WHEN YOU CALL.</p>
-          <h1 id="hero-headline">Your weekend starts <em>in the driveway.</em></h1>
+          <h1 id="hero-headline">1967 Ford Mustang Fastback</h1>
           <p class="hero-lede" id="hero-lede">Find the shape, the sound, and the steering wheel you still remember. Start with published asking prices and a detailed gallery of real photos for every car.</p>
           <div class="hero-actions">
             <button class="button" id="hero-primary-cta" type="button" data-hero-request="Availability and details">Check Availability</button>
@@ -146,7 +146,7 @@
             <label class="check-line"><input type="checkbox" name="deliveryNeeded"><span>I may need delivery to my location</span></label>
             <label class="consent-line"><input type="checkbox" name="smsCustomerCareConsent" required><span>I agree to be contacted about this request by phone, text, or email. Consent is not a condition of purchase. Message and data rates may apply.</span></label>
             <p class="privacy-note">We collect your contact details, selected vehicle, and request information only to respond and operate this service. See our <a href="privacy/">Privacy Policy</a> and <a href="terms/">Terms of Use</a>.</p>
-            <button class="button button-full" type="submit">Check this car <i data-lucide="arrow-right" aria-hidden="true"></i></button>
+            <button class="button button-full" type="submit">Send my request <i data-lucide="arrow-right" aria-hidden="true"></i></button>
             <p class="form-status" role="status" aria-live="polite"></p>
           </form>
         </aside>
@@ -231,6 +231,6 @@
   <script src="data/inventory.js"></script>
   <script src="config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
-  <script src="app.js" defer></script>
+  <script src="app.js?v=hero-nav-20260902" defer></script>
 </body>
 </html>

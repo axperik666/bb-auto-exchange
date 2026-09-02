@@ -79,8 +79,9 @@
       button.type = "button";
       button.className = "vehicle-lead-cta";
       button.innerHTML = bar.classList.contains("mobile-cta")
-        ? "<span>Ask</span><small>This car</small>"
-        : '<i data-lucide="clipboard-check" aria-hidden="true"></i><span>Ask about this car</span>';
+        ? "<span>Request</span><small>details</small>"
+        : '<i data-lucide="clipboard-check" aria-hidden="true"></i><span>Request details</span>';
+      button.setAttribute("aria-label", `Request details about ${campaignVehicle.title}`);
       button.addEventListener("click", () => openLead(campaignVehicle.id, "Availability and details"));
       bar.insertBefore(button, chatButton);
     });
@@ -110,20 +111,13 @@
       vehicleSelect.closest("label")?.classList.add("vehicle-locked-field");
     }
 
-    const email = $("#lead-form input[name='email']");
-    if (email) {
-      email.required = false;
-      email.setAttribute("aria-label", "Email address optional");
-      const label = email.closest("label");
-      if (label && label.firstChild && label.firstChild.nodeType === Node.TEXT_NODE) label.firstChild.textContent = "Email address (optional)";
-    }
-
     const actions = $(".garage-hero .hero-actions");
     if (actions && !$(".vehicle-certainty", actions.parentElement)) {
       actions.insertAdjacentHTML("afterend", `<div class="vehicle-certainty" aria-label="Exact listing confirmation"><span><strong>Exact vehicle</strong>From your ad</span><span><strong>${campaignVehicle.images.length} real photos</strong>Of this listing</span><span><strong>${campaignVehicle.stock ? `Stock ${campaignVehicle.stock}` : "Current listing"}</strong>${money.format(campaignVehicle.price)} asking price</span></div>`);
     }
 
     replaceWithCallLink($("#hero-video-cta"), primaryPhone);
+    $$('[data-campaign-request="Availability and details"]').forEach(button => button.textContent = "Request details");
   }
 
   function setupPhoneTracking() {
@@ -284,13 +278,13 @@
     $("[data-campaign-gallery]").textContent = `See All ${vehicle.images.length} Photos`;
     $(".garage-hero .eyebrow").textContent = "THE EXACT VEHICLE FROM YOUR AD";
     $("#hero-headline").textContent = vehicle.title;
-    $("#hero-lede").textContent = `This is the exact listing you opened. Review ${vehicle.images.length} real photos, the ${money.format(vehicle.price)} asking price${vehicle.stock ? `, and stock ${vehicle.stock}` : ""} — then call or send a request tied only to this car.`;
+    $("#hero-lede").textContent = "Interested in this car? Request details with your name, phone, and email — or call our sales team.";
     $("#inventory-heading-title").textContent = "Three more classics, if you want to compare.";
     $("#inventory-heading-copy").textContent = "Your request remains tied to the vehicle above. These are separate listings with their own prices and stock numbers.";
     $("#final-cta-heading").textContent = `Ask about the ${vehicle.year} ${vehicle.title.replace(/^\d{4}\s+/, "")}`;
     $("#final-cta-copy").textContent = `Your request will stay tied to stock ${vehicle.stock || vehicle.id} and the published ${money.format(vehicle.price)} asking price.`;
     $("#final-cta-link").href = "#availability";
-    $("#final-cta-link").textContent = "Check this car";
+    $("#final-cta-link").textContent = "Request details";
 
     const proofSection = $("#campaign-proof");
     const leadSection = $("#availability");
@@ -320,11 +314,11 @@
     $("#hero-vehicle-title").textContent = campaignVehicle.title;
     $("#hero-vehicle-meta").textContent = `${money.format(campaignVehicle.price)}${campaignVehicle.stock ? ` · STOCK ${campaignVehicle.stock}` : ""}`;
     $("#hero-vehicle-button").childNodes[0].textContent = `See all ${campaignVehicle.images.length} photos `;
-    $("#hero-primary-cta").textContent = "Check Availability";
+    $("#hero-primary-cta").textContent = "Request details";
     $$("[data-vehicle]", $(".garage-hero")).forEach((button) => button.dataset.vehicle = campaignVehicle.id);
     $("#vehicle-select").value = campaignVehicle.id;
     $("#lead-title").textContent = `Ask about ${campaignVehicle.title}`;
-    $("#lead-context").textContent = `${money.format(campaignVehicle.price)} asking price${campaignVehicle.stock ? ` · Stock ${campaignVehicle.stock}` : ""}. Your request will stay tied to this exact vehicle.`;
+    $("#lead-context").textContent = `${money.format(campaignVehicle.price)} asking price${campaignVehicle.stock ? ` · Stock ${campaignVehicle.stock}` : ""}. Leave your name, phone number, and email below. All three are required so our sales team can follow up about this car.`;
     renderCampaignProof(campaignVehicle);
     updateVehicleMetadata(campaignVehicle);
     trackVehicleView(campaignVehicle);
@@ -403,7 +397,9 @@
     const vehicle = inventory.find((row) => row.id === id);
     if (!vehicle) return;
     if (pathVehicleMatch && campaignVehicle && campaignVehicle.id === vehicle.id) {
-      $("#campaign-proof").scrollIntoView({ behavior: "smooth", block: "start" });
+      const photos = $("#campaign-proof-photos");
+      photos.classList.add("is-expanded");
+      photos.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
     location.assign(vehicleHref(vehicle));
@@ -419,7 +415,7 @@
     $("#vehicle-select").value = vehicle.id;
     $("#request-type").value = requestType;
     $("#lead-title").textContent = `Ask about ${vehicle.title}`;
-    $("#lead-context").textContent = `${money.format(vehicle.price)} asking price${vehicle.stock ? ` · Stock ${vehicle.stock}` : ""}. Your request will stay tied to this exact vehicle.`;
+    $("#lead-context").textContent = `${money.format(vehicle.price)} asking price${vehicle.stock ? ` · Stock ${vehicle.stock}` : ""}. Leave your name, phone number, and email below. All three are required so our sales team can follow up about this car.`;
     trackMetaEvent("LeadFormOpen", { content_name: vehicle.title, content_ids: [vehicle.id], vehicle_stock: vehicle.stock || "", request_type: requestType }, { custom: true });
     $("#lead-form-card").scrollIntoView({ behavior: "smooth", block: "center" });
     setTimeout(() => $("#lead-form input[name='firstName']").focus(), 450);
@@ -435,7 +431,7 @@
     const requestPayload = { ...payload, leadSource: "LANDING", leadId: payload.leadId || newLeadId(), receivedAt: new Date().toISOString() };
     const response = await fetch(config.leadEndpoint, { method: "POST", headers: { "Content-Type": "text/plain;charset=UTF-8" }, body: JSON.stringify(requestPayload), redirect: "follow" });
     const body = await response.json().catch(() => ({}));
-    if (!response.ok || body.ok === false) {
+    if (!response.ok || body.ok !== true) {
       throw new Error(body.message || "We could not confirm delivery of your request.");
     }
     return body;
@@ -444,6 +440,7 @@
   async function submitLead(event) {
     event.preventDefault();
     const form = event.currentTarget;
+    if (form.dataset.submitting === "true") return;
     const status = $(".form-status", form);
     status.className = "form-status";
     const phoneInput = $("input[name='phone']", form);
@@ -482,6 +479,7 @@
     lastSubmissionKey = submissionKey;
     lastSubmissionAt = Date.now();
     const submitButton = form.querySelector('button[type="submit"]');
+    form.dataset.submitting = "true";
     submitButton.disabled = true;
     status.textContent = "Sending your request…";
     const localPreview = isPreview();
@@ -489,12 +487,14 @@
       localStorage.setItem("bb_demo_lead", JSON.stringify({ ...payload, savedAt: new Date().toISOString() }));
       status.classList.add("success");
       status.textContent = "Preview mode: validation passed. No request was sent; please call B&B to contact the team.";
+      delete form.dataset.submitting;
       submitButton.disabled = false;
       return;
     }
     if (!config.leadEndpoint) {
       status.classList.add("error");
       status.textContent = `Online delivery is not connected yet. Please call ${callLines}.`;
+      delete form.dataset.submitting;
       submitButton.disabled = false;
       return;
     }
@@ -513,9 +513,12 @@
         lead_source: "website"
       }, { eventId: payload.leadId });
     } catch (error) {
+      lastSubmissionKey = "";
+      lastSubmissionAt = 0;
       status.classList.add("error");
       status.textContent = `${error.message} Please call ${callLines}.`;
     } finally {
+      delete form.dataset.submitting;
       submitButton.disabled = false;
     }
   }
