@@ -46,13 +46,106 @@
     image.src = source;
   }
 
-  function validatePhoneInput(input, report = false) {
+  function validatePhoneInput(input) {
     if (!input) return false;
     const digits = input.value.replace(/\D/g, "");
     input.setCustomValidity(digits.length >= 7 ? "" : "Enter at least 7 digits. You may use +, spaces, parentheses, or dashes.");
-    if (report && !input.checkValidity()) input.reportValidity();
-    return input.checkValidity();
+    return input.validity.valid;
   }
+
+  function fieldErrorMessage(field) {
+    if (field.disabled || !field.willValidate) return "";
+    const value = String(field.value || "").trim();
+    if (field.required && (field.type === "checkbox" ? !field.checked : !value)) {
+      if (field.type === "checkbox") return "Please check this box so the dealer can contact you about your request.";
+      const required = {
+        firstName: "Please enter your first name.",
+        lastName: "Please enter your last name.",
+        name: "Please enter your name.",
+        phone: "Please enter your phone number.",
+        email: "Please enter your email address.",
+        vehicleSlug: "Please choose the exact vehicle.",
+        requestType: "Please choose what you would like to receive.",
+        message: "Please enter your question."
+      };
+      return required[field.name] || "Please complete this field.";
+    }
+    if (field.type === "tel" && !validatePhoneInput(field)) return "Please enter at least 7 digits. Spaces, +, parentheses, and dashes are welcome.";
+    if (field.type === "email" && field.validity.typeMismatch) return "Please enter a valid email address, such as name@example.com.";
+    if (!field.validity.valid) return "Please check this field and try again.";
+    return "";
+  }
+
+  function setFieldError(field, message) {
+    const id = `${field.form.id}-${field.name}-error`;
+    let error = document.getElementById(id);
+    if (!error && message) {
+      error = document.createElement("small");
+      error.id = id;
+      error.className = "field-error";
+      error.lang = "en";
+      error.setAttribute("role", "alert");
+      const anchor = field.type === "checkbox" ? field.closest("label") || field : field;
+      anchor.insertAdjacentElement("afterend", error);
+      const descriptions = new Set((field.getAttribute("aria-describedby") || "").split(/\s+/).filter(Boolean));
+      descriptions.add(id);
+      field.setAttribute("aria-describedby", [...descriptions].join(" "));
+    }
+    if (error) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+    if (message) field.setAttribute("aria-invalid", "true");
+    else field.removeAttribute("aria-invalid");
+  }
+
+  function validateFields(root, revealField) {
+    let firstInvalid = null;
+    $$("input, select, textarea", root).forEach((field) => {
+      const message = fieldErrorMessage(field);
+      setFieldError(field, message);
+      if (message && !firstInvalid) firstInvalid = field;
+    });
+    if (!firstInvalid) return true;
+    if (revealField) revealField(firstInvalid);
+    firstInvalid.focus();
+    firstInvalid.scrollIntoView({ block: "center", behavior: "smooth" });
+    return false;
+  }
+
+  function setupEnglishValidation() {
+    $$("form").forEach((form) => {
+      form.noValidate = true;
+      form.addEventListener("invalid", (event) => event.preventDefault(), true);
+      form.addEventListener("input", () => {
+        const previousSuccess = $(".form-status.success", form);
+        if (previousSuccess) {
+          previousSuccess.className = "form-status";
+          previousSuccess.textContent = "";
+        }
+      });
+      $$("input, select, textarea", form).forEach((field) => {
+        const refresh = () => {
+          if (field.hasAttribute("aria-invalid")) setFieldError(field, fieldErrorMessage(field));
+        };
+        field.addEventListener("input", refresh);
+        field.addEventListener("change", refresh);
+      });
+      form.addEventListener("reset", () => {
+        $$("input, select, textarea", form).forEach((field) => setFieldError(field, ""));
+      });
+    });
+  }
+
+  function showRequestSuccess(status) {
+    status.className = "form-status success";
+    status.textContent = "Thank you! Your request has been sent. Please expect a call from the dealer shortly.";
+    status.lang = "en";
+    status.tabIndex = -1;
+    status.focus({ preventScroll: true });
+    status.scrollIntoView({ block: "center", behavior: "smooth" });
+  }
+
 
   function setupFlexiblePhoneInputs() {
     $$("input[type='tel']").forEach((input) => {
@@ -443,8 +536,7 @@
     if (form.dataset.submitting === "true") return;
     const status = $(".form-status", form);
     status.className = "form-status";
-    const phoneInput = $("input[name='phone']", form);
-    if (!validatePhoneInput(phoneInput, true) || !form.reportValidity()) return;
+    if (!validateFields(form)) return;
     const data = new FormData(form);
     const vehicle = inventory.find((row) => row.id === data.get("vehicleSlug"));
     const requestType = String(data.get("requestType") || "Availability and details");
@@ -499,10 +591,9 @@
       return;
     }
     try {
-      const body = await postLeadToRouter(payload);
-      status.classList.add("success");
-      status.textContent = body.message || "Request received. The B&B team will use your details to follow up.";
+      await postLeadToRouter(payload);
       form.reset();
+      showRequestSuccess(status);
       trackMetaEvent("Lead", {
         content_name: vehicle ? vehicle.title : "Inventory inquiry",
         content_ids: vehicle ? [vehicle.id] : [],
@@ -516,7 +607,7 @@
       lastSubmissionKey = "";
       lastSubmissionAt = 0;
       status.classList.add("error");
-      status.textContent = `${error.message} Please call ${callLines}.`;
+      status.textContent = `We could not send your request. Please try again or call ${callLines}.`;
     } finally {
       delete form.dataset.submitting;
       submitButton.disabled = false;
@@ -529,6 +620,7 @@
     loadMetaPixel();
     populateSelect();
     setupFlexiblePhoneInputs();
+    setupEnglishValidation();
     applyHomepageFeaturedVehicle();
     applyCampaignVehicle();
     setupCampaignLanding();

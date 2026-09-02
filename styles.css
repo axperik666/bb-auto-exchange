@@ -572,3 +572,28 @@ footer { padding: 34px 0; color: #aeb0ac; background: #050606; font-size: 14px; 
   #visit .dealer-hours { grid-template-columns: 1fr; gap: 9px; }
   #visit .dealer-hours dl > div { gap: 10px; }
 }
+
+/* Form messages stay in English regardless of the browser's language. */
+form .field-error {
+  display: block;
+  margin: 6px 0 0;
+  color: #9c221b;
+  font: 600 15px/1.45 Arial, sans-serif;
+  text-transform: none;
+  letter-spacing: normal;
+  overflow-wrap: anywhere;
+}
+form .field-error[hidden] { display: none; }
+form [aria-invalid="true"] { border-color: #b52d25; outline-color: #b52d25; }
+form .form-status.success {
+  margin-top: 12px;
+  padding: 16px 18px;
+  border: 2px solid #286b42;
+  border-radius: 8px;
+  background: #eff9f1;
+  color: #17472b;
+  font-size: 18px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+form .form-status.success:focus { outline: 2px solid #286b42; outline-offset: 3px; }
